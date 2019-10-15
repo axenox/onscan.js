@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<script src="onscan.js"></script>
+</head>
+<body>
+
+<h1>Testsite for ScannerDetector</h1>
+<h2>Settings:</h2> 
+<font size="3" face="Courier New">
+<table style="witdh:100%">
+	<tr>
+		<td><label>timeBeforeScanTest: </label></td>
+		<td><input id="iTimeBeforeScanTest" value=100></input></td>
+		<td></td>
+	<tr>
+		<td><label>avgTimeByChar: </label></td>
+		<td><input id="iAvgTimeByChar" value=30></input></td>
+		<td></td>
+	<tr>
+		<td><label>minLength: </label></td>
+		<td><input id="iMinLength" value=6></input></td>
+		<td></td>
+	<tr>
+		<td><label>endChar: </label></td>
+		<td><input id="iEndChar" value=9,13></input></td>
+		<td></td>
+	<tr>
+		<td><label>startChar: </label></td>
+		<td><input id="iStartChar" value=></input></td>
+		<td></td>
+	<tr>
+		<td><label>ignoreIfFocusOn: </label></td>
+		<td><input type="checkbox" id="iIgnoreIfFocusOn" value="false"></input></td>
+		<td><input id="focusButton" value="input ignored if focused here"></input></td>
+	<tr>
+		<td><label>scanButtonKeyCode: </label></td>
+		<td><input id="iScanButtonKeyCode" ></input></td>
+		<td></td>	
+	<tr>
+		<td><label>scanButtonLongPressThreshold: </label></td>
+		<td><input id="iScanButtonLongPressThreshold" value=3></input></td>
+		<td></td>
+	<tr>
+		<td><label>onScanButtonLongPressed: </label></td>
+		<td><input type="checkbox" id="iOnScanButtonLongPressed" value="false"></input></td>
+		<td></td>
+	<tr>
+		<td><label>stopPropagation: </label></td>
+		<td><input type="checkbox" id="iStopPropagation" value="false"></input></td>
+		<td></td>
+	<tr>
+		<td><label>preventDefault: </label></td>
+		<td><input type="checkbox" id="iPreventDefault" value="false"></input></td>
+		<td></td>
+	<tr>
+		<td><label>onComplete: </label></td>
+		<td><input type="checkbox" id="iOnComplete" value="false"></input></td>
+		<td></td>
+	<tr>
+		<td><label>onError: </label></td>
+		<td><input type="checkbox" id="iOnError" value="false"></input></td>
+		<td></td>
+	<tr>
+		<td><label>onReceive: </label></td>
+		<td><input type="checkbox" id="iOnReceive" value="false"></input></td>
+		<td></td>
+	<tr>
+		<td><label>onKeyDetect: </label></td>
+		<td><input type="checkbox" id="iOnKeyDetect" value="false"></input></td>
+		<td></td>
+	<tr>
+		<td><label>OnComplete Eventhandler: </label></td>
+		<td><input type="checkbox" id="iCompleteHandler" value="false"></input></td>
+		<td></td>
+	<tr>
+		<td><label>OnError Eventhandler: </label></td>
+		<td><input type="checkbox" id="iErrorHandler" value="false"></input></td>
+		<td></td>
+
+	
+</table>
+</font>
+
+<input type="button" id="generateScannerDetector" onclick="generateScannerDetector()" value="Generate!"> </input>
+<input type="button" id="destroyScannerDetector" onclick="destroyScannerDetector()" value="Destroy!"> </input>
+
+
+			
+<br>
+
+<textarea id="consoleTextField" rows="10" cols="150"></textarea>
+<br>
+<input type="button" id="clearTextArea" onclick="clearTextArea()" value="Clear Console Log"> </input>
+
+
+<script>
+
+	if (typeof console  != "undefined") 
+    if (typeof console.log != 'undefined')
+        console.olog = console.log;
+    else
+        console.olog = function() {};
+
+	console.log = function(message, error) {
+		console.olog(message);
+		if (error) 
+			document.getElementById('consoleTextField').value += "ERROR: " + message + '\n';
+		else
+			document.getElementById('consoleTextField').value += ('> ' + message + '\n');
+		document.getElementById('consoleTextField').scrollTop = document.getElementById('consoleTextField').scrollHeight;
+	};
+	console.error = console.debug = console.info =  console.log;
+
+	window.onerror = function(msg){
+			console.log(msg, true);
+	}
+
+	document.getElementById("focusButton").style.visibility="hidden";
+
+
+	function generateScannerDetector(){
+		var prop;
+		var array;
+		var endChar = [];
+		var startChar = [];
+		
+		
+		if (document.getElementById("iEndChar").value){
+			array = document.getElementById("iEndChar").value.split(",");
+			for (prop in array)
+				endChar.push(parseInt(array[prop]));
+	//			endChar.push(parseInt(prop));
+		}
+		if (document.getElementById("iStartChar").value){
+			array = document.getElementById("iStartChar").value.split(",")
+			for (prop in document.getElementById("iStartChar").value.split(","))
+				startChar.push(parseInt(array[prop]));
+		}
+			
+		console.log(startChar);
+			
+		var options = {
+			timeBeforeScanTest: parseInt(document.getElementById("iTimeBeforeScanTest").value), 
+			avgTimeByChar: parseInt(document.getElementById("iAvgTimeByChar").value),
+			minLength: parseInt(document.getElementById("iMinLength").value), 
+			endChar: endChar,
+			startChar: startChar, 
+			scanButtonLongPressThreshold: parseInt(document.getElementById("iScanButtonLongPressThreshold").value), 
+			stopPropagation:document.getElementById("iStopPropagation").checked, 
+			preventDefault:document.getElementById("iPreventDefault").checked
+		}
+		
+		if (document.getElementById("iOnComplete").checked){
+			options.onComplete = function(barcode, qty){
+				console.log("[onComplete]: Code: " + barcode + " Quantity: " + qty);
+			};
+		}
+		if (document.getElementById("iOnError").checked){
+			options.onError = function(){
+				console.log("[onError]: Invalid Scan");
+			};
+		}
+		if (document.getElementById("iOnReceive").checked){
+			options.onReceive = function(key){
+				console.log("[onReceive]: Received:" + scannerDetector._getKeyNum(key));
+			};
+		}
+		if (document.getElementById("iOnKeyDetect").checked){
+			options.onKeyDetect = function(key){
+				console.log("[onKeyDetect]: Detected Key:" + scannerDetector._getKeyNum(key));
+			};
+		}
+		if (document.getElementById("iIgnoreIfFocusOn").checked){
+			options.ignoreIfFocusOn = document.getElementById("focusButton");
+			document.getElementById("focusButton").style.visibility = "visible";
+		} else {
+			document.getElementById("focusButton").style.visibility="hidden";	
+		}
+		
+		if (document.getElementById("iScanButtonKeyCode")){
+			options.scanButtonKeyCode = parseInt(document.getElementById("iScanButtonKeyCode"));
+		}
+			
+		if (document.getElementById("iOnScanButtonLongPressed").checked){
+			options.onScanButtonLongPressed = function(key){
+				console.log("[onScanButtonLongPressed]: ScanButton has been long-pressed.");
+			};
+		}
+			
+		if (document.getElementById("iCompleteHandler").checked){
+			document.addEventListener('scannerDetectionComplete', scannerDetectionCompleteHandler);
+		} else {
+			document.removeEventListener('scannerDetectionComplete', scannerDetectionCompleteHandler);
+		}
+		
+		if (document.getElementById("iErrorHandler").checked){
+			document.addEventListener('scannerDetectionError', scannerDetectionErrorHandler);
+		} else {
+			document.removeEventListener('scannerDetectionError', scannerDetectionErrorHandler);
+		}
+		
+			
+		
+		
+		if (scannerDetector.attachTo(document, options) === undefined) console.log("ScannerDetector Started!");
+		
+		
+
+	}
+	
+	function destroyScannerDetector(){
+		console.log("ScannerDetector destroyed!");
+		scannerDetector.detachFrom(document);	
+	}
+
+	
+	function clearTextArea(){
+		document.getElementById('consoleTextField').value = "";
+	}
+	
+	function scannerDetectionCompleteHandler(e){
+		console.log("[scannerDetectionCompleteHandler]: Code: " + e.detail.code);
+	}
+	
+	function scannerDetectionErrorHandler(){
+		console.log("[scannerDetectionErrorHandler]: Invalid Scan");
+	}
+	
+</script>
+
+
+</body>
+</html>
