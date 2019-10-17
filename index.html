@@ -1,99 +1,125 @@
 <!DOCTYPE html>
 <html>
 <head>
+	<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+	
 	<script src="onscan.js"></script>
+	
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
 <body>
-
-<h1>Testsite for ScannerDetector</h1>
-<h2>Settings:</h2> 
-<font size="3" face="Courier New">
-<table style="witdh:100%">
-	<tr>
-		<td><label>timeBeforeScanTest: </label></td>
-		<td><input id="iTimeBeforeScanTest" value=100></input></td>
-		<td></td>
-	<tr>
-		<td><label>avgTimeByChar: </label></td>
-		<td><input id="iAvgTimeByChar" value=30></input></td>
-		<td></td>
-	<tr>
-		<td><label>minLength: </label></td>
-		<td><input id="iMinLength" value=6></input></td>
-		<td></td>
-	<tr>
-		<td><label>endChar: </label></td>
-		<td><input id="iEndChar" value=9,13></input></td>
-		<td></td>
-	<tr>
-		<td><label>startChar: </label></td>
-		<td><input id="iStartChar" value=></input></td>
-		<td></td>
-	<tr>
-		<td><label>ignoreIfFocusOn: </label></td>
-		<td><input type="checkbox" id="iIgnoreIfFocusOn" value="false"></input></td>
-		<td><input id="focusButton" value="input ignored if focused here"></input></td>
-	<tr>
-		<td><label>scanButtonKeyCode: </label></td>
-		<td><input id="iScanButtonKeyCode" ></input></td>
-		<td></td>	
-	<tr>
-		<td><label>scanButtonLongPressThreshold: </label></td>
-		<td><input id="iScanButtonLongPressThreshold" value=3></input></td>
-		<td></td>
-	<tr>
-		<td><label>onScanButtonLongPressed: </label></td>
-		<td><input type="checkbox" id="iOnScanButtonLongPressed" value="false"></input></td>
-		<td></td>
-	<tr>
-		<td><label>stopPropagation: </label></td>
-		<td><input type="checkbox" id="iStopPropagation" value="false"></input></td>
-		<td></td>
-	<tr>
-		<td><label>preventDefault: </label></td>
-		<td><input type="checkbox" id="iPreventDefault" value="false"></input></td>
-		<td></td>
-	<tr>
-		<td><label>onComplete: </label></td>
-		<td><input type="checkbox" id="iOnComplete" value="false"></input></td>
-		<td></td>
-	<tr>
-		<td><label>onError: </label></td>
-		<td><input type="checkbox" id="iOnError" value="false"></input></td>
-		<td></td>
-	<tr>
-		<td><label>onReceive: </label></td>
-		<td><input type="checkbox" id="iOnReceive" value="false"></input></td>
-		<td></td>
-	<tr>
-		<td><label>onKeyDetect: </label></td>
-		<td><input type="checkbox" id="iOnKeyDetect" value="false"></input></td>
-		<td></td>
-	<tr>
-		<td><label>OnComplete Eventhandler: </label></td>
-		<td><input type="checkbox" id="iCompleteHandler" value="false"></input></td>
-		<td></td>
-	<tr>
-		<td><label>OnError Eventhandler: </label></td>
-		<td><input type="checkbox" id="iErrorHandler" value="false"></input></td>
-		<td></td>
-
-	
-</table>
-</font>
-
-<input type="button" id="generateScannerDetector" onclick="generateScannerDetector()" value="Generate!"> </input>
-<input type="button" id="destroyScannerDetector" onclick="destroyScannerDetector()" value="Destroy!"> </input>
-
-
+<div class="container">
+	<h1>Testsite for ScannerDetector</h1>
+	<h2>Settings:</h2> 
+	<form>
+		<table style="witdh:100%">
+			<tr>
+				<td><label>timeBeforeScanTest: </label></td>
+				<td><input id="iTimeBeforeScanTest" class="form-control" value=100></input></td>
+				<td></td>
+			<tr>
+				<td><label>avgTimeByChar: </label></td>
+				<td><input id="iAvgTimeByChar" class="form-control" value=30></input></td>
+				<td></td>
+			<tr>
+				<td><label>minLength: </label></td>
+				<td><input id="iMinLength" class="form-control" value=6></input></td>
+				<td></td>
+			<tr>
+				<td><label>endCharCodes: </label></td>
+				<td><input id="iEndChar" class="form-control" value=9,13></input></td>
+				<td></td>
+			<tr>
+				<td><label>startCharCodes: </label></td>
+				<td><input id="iStartChar" class="form-control"></input></td>
+				<td></td>
+			<tr>
+				<td><label>ignoreIfFocusOn: </label></td>
+				<td><input type="checkbox" id="iIgnoreIfFocusOn" class="form-control"></input></td>
+				<td><input id="focusExample" class="form-control" placeholder="focus here"></input></td>
+			<tr>
+				<td><label>scanButtonKeyCode: </label></td>
+				<td><input id="iScanButtonKeyCode" class="form-control" ></input></td>
+				<td></td>	
+			<tr>
+				<td><label>scanButtonLongPressThreshold: </label></td>
+				<td><input id="iScanButtonLongPressThreshold" class="form-control" value=500></input></td>
+				<td></td>
+			<tr>
+				<td><label>onScanButtonLongPressed: </label></td>
+				<td><input type="checkbox" id="iOnScanButtonLongPressed" class="form-control"></input></td>
+				<td></td>
+			<tr>
+				<td><label>singleScanQty </label></td>
+				<td><input id="iSingleScanQty" class="form-control" value=1></input></td>
+				<td></td>
+			<tr>
+				<td><label>stopPropagation: </label></td>
+				<td><input type="checkbox" id="iStopPropagation" class="form-control"></input></td>
+				<td></td>
+			<tr>
+				<td><label>preventDefault: </label></td>
+				<td><input type="checkbox" id="iPreventDefault" class="form-control"></input></td>
+				<td></td>
+			<tr>
+				<td><label>onScan: </label></td>
+				<td><input type="checkbox" id="iOnComplete" class="form-control" checked=true></input></td>
+				<td></td>
+			<tr>
+				<td><label>onScanError: </label></td>
+				<td><input type="checkbox" id="iOnError" class="form-control" checked=true></input></td>
+				<td></td>
+			<tr>
+				<td><label>onKeyProcessed: </label></td>
+				<td><input type="checkbox" id="iOnKeyProcessed" class="form-control"></input></td>
+				<td></td>
+			<tr>
+				<td><label>onKeyDetect: </label></td>
+				<td><input type="checkbox" id="iOnKeyDetect" class="form-control"></input></td>
+				<td></td>
+			<tr>
+				<td><label>acceptPasteInput: </label></td>
+				<td><input type="checkbox" id="iAcceptPasteInput" class="form-control" ></input></td>
+				<td></td>
+			<tr>
+				<td><label>scan Eventhandler: </label></td>
+				<td><input type="checkbox" id="iCompleteHandler" class="form-control"></input></td>
+				<td></td>
+			<tr>
+				<td><label>scanError Eventhandler: </label></td>
+				<td><input type="checkbox" id="iErrorHandler" class="form-control" ></input></td>
+				<td></td>
+			<tr>
+				<td><label>use example keyCodeMapper: </label></td>
+				<td><input type="checkbox" id="ikeyCodeMapper" class="form-control" ></input></td>
+				<td></td>
+			<tr>
+				<td><input id="iTestInput" class="form-control" placeholder="enter example code" ></input></td>
+				<td><input type="button" id="bFireTestInput" class="btn btn-primary" onclick="fireTestInput()" value="Fire Test Input"> </input></td>
+				<td></td>
 			
-<br>
-
-<textarea id="consoleTextField" rows="10" cols="150"></textarea>
-<br>
-<input type="button" id="clearTextArea" onclick="clearTextArea()" value="Clear Console Log"> </input>
+		</table>
+	</form>
 
 
+	<input type="button" id="bGenerateScannerDetector" class="btn btn-primary" onclick="generateScannerDetector()" value="Generate!"> </input>
+	<input type="button" id="bDestroyScannerDetector" class="btn btn-primary" onclick="destroyScannerDetector()" value="Destroy!"> </input>
+	<input type="button" id="bGgetScannerDetectorSettings" class="btn btn-primary" onclick="getScannerDetectorSettings()" value="Display Current Settings"> </input>
+	
+
+				
+	<br>
+
+	<textarea id="consoleTextField" class="form-control" rows="10"></textarea>
+
+	<br>
+	<input type="button" id="clearTextArea" class="btn btn-primary" onclick="clearTextArea()" value="Clear Console Log"> </input>
+
+</div>
 <script>
 
 	if (typeof console  != "undefined") 
@@ -104,10 +130,11 @@
 
 	console.log = function(message, error) {
 		console.olog(message);
-		if (error) 
+		if (error){ 
 			document.getElementById('consoleTextField').value += "ERROR: " + message + '\n';
-		else
+		} else {
 			document.getElementById('consoleTextField').value += ('> ' + message + '\n');
+		}
 		document.getElementById('consoleTextField').scrollTop = document.getElementById('consoleTextField').scrollHeight;
 	};
 	console.error = console.debug = console.info =  console.log;
@@ -116,95 +143,216 @@
 			console.log(msg, true);
 	}
 
-	document.getElementById("focusButton").style.visibility="hidden";
 
-
+	document.getElementById("focusExample").style.visibility="hidden";
+	
 	function generateScannerDetector(){
+		
+		
 		var prop;
 		var array;
-		var endChar = [];
-		var startChar = [];
+		var endCharCodes = [];
+		var startCharCodes = [];
 		
 		
 		if (document.getElementById("iEndChar").value){
 			array = document.getElementById("iEndChar").value.split(",");
 			for (prop in array)
-				endChar.push(parseInt(array[prop]));
-	//			endChar.push(parseInt(prop));
+				endCharCodes.push(parseInt(array[prop]));
+	//			endCharCodes.push(parseInt(prop));
 		}
 		if (document.getElementById("iStartChar").value){
 			array = document.getElementById("iStartChar").value.split(",")
 			for (prop in document.getElementById("iStartChar").value.split(","))
-				startChar.push(parseInt(array[prop]));
+				startCharCodes.push(parseInt(array[prop]));
 		}
-			
-		console.log(startChar);
-			
+						
 		var options = {
 			timeBeforeScanTest: parseInt(document.getElementById("iTimeBeforeScanTest").value), 
 			avgTimeByChar: parseInt(document.getElementById("iAvgTimeByChar").value),
 			minLength: parseInt(document.getElementById("iMinLength").value), 
-			endChar: endChar,
-			startChar: startChar, 
+			endCharCodes: endCharCodes,
+			startCharCodes: startCharCodes, 
 			scanButtonLongPressThreshold: parseInt(document.getElementById("iScanButtonLongPressThreshold").value), 
-			stopPropagation:document.getElementById("iStopPropagation").checked, 
-			preventDefault:document.getElementById("iPreventDefault").checked
+			stopPropagation: document.getElementById("iStopPropagation").checked, 
+			preventDefault: document.getElementById("iPreventDefault").checked,
+			acceptPasteInput: document.getElementById("iAcceptPasteInput").checked,
+			singleScanQty: parseInt(document.getElementById("iSingleScanQty").value)
 		}
 		
 		if (document.getElementById("iOnComplete").checked){
-			options.onComplete = function(barcode, qty){
-				console.log("[onComplete]: Code: " + barcode + " Quantity: " + qty);
+			options.onScan = function(barcode, qty){
+				console.log("[onScan]: Code: " + barcode + " Quantity: " + qty);
 			};
-		}
-		if (document.getElementById("iOnError").checked){
-			options.onError = function(){
-				console.log("[onError]: Invalid Scan");
-			};
-		}
-		if (document.getElementById("iOnReceive").checked){
-			options.onReceive = function(key){
-				console.log("[onReceive]: Received:" + scannerDetector._getKeyNum(key));
-			};
-		}
-		if (document.getElementById("iOnKeyDetect").checked){
-			options.onKeyDetect = function(key){
-				console.log("[onKeyDetect]: Detected Key:" + scannerDetector._getKeyNum(key));
-			};
-		}
-		if (document.getElementById("iIgnoreIfFocusOn").checked){
-			options.ignoreIfFocusOn = document.getElementById("focusButton");
-			document.getElementById("focusButton").style.visibility = "visible";
 		} else {
-			document.getElementById("focusButton").style.visibility="hidden";	
+			options.onScan = function(){};
+		}
+				
+		if (document.getElementById("iOnError").checked){
+			options.onScanError = function(err){
+				var sFormatedErrorString = "Error Details: \n";
+				var aJSONArray = JSON.stringify(err).split(",");
+				for (prop = 0; prop < aJSONArray.length - 1; prop++){
+					sFormatedErrorString += aJSONArray[prop] + "," + "\n";
+				}
+				sFormatedErrorString += aJSONArray[aJSONArray.length - 1];
+				
+				console.log("[onScanError]: " + sFormatedErrorString);
+			}; 	
+		} else {
+			options.onScanError = function(){};
 		}
 		
-		if (document.getElementById("iScanButtonKeyCode")){
-			options.scanButtonKeyCode = parseInt(document.getElementById("iScanButtonKeyCode"));
-		}
-			
-		if (document.getElementById("iOnScanButtonLongPressed").checked){
-			options.onScanButtonLongPressed = function(key){
-				console.log("[onScanButtonLongPressed]: ScanButton has been long-pressed.");
+		
+		if (document.getElementById("iOnKeyProcessed").checked){
+			options.onKeyProcessed = function(key){
+				console.log("[onKeyProcessed]: Processed: " + key.which);
 			};
-		}
-			
-		if (document.getElementById("iCompleteHandler").checked){
-			document.addEventListener('scannerDetectionComplete', scannerDetectionCompleteHandler);
 		} else {
-			document.removeEventListener('scannerDetectionComplete', scannerDetectionCompleteHandler);
+			options.onKeyProcessed = function(){};
+		}
+		
+		
+		if (document.getElementById("iOnKeyDetect").checked){
+			options.onKeyDetect = function(key){
+				console.log("[onKeyDetect]: Detected Key: " + key.which);
+			};
+		} else {
+			options.onKeyDetect = function(){};
+		}
+		
+		if (document.getElementById("iIgnoreIfFocusOn").checked){
+			options.ignoreIfFocusOn = "focusExample";
+			document.getElementById("focusExample").style.visibility = "visible";
+		} else {
+			document.getElementById("focusExample").style.visibility="hidden";	
+		}
+		
+		if (document.getElementById("iScanButtonKeyCode").value){
+			options.scanButtonKeyCode = parseInt(document.getElementById("iScanButtonKeyCode").value);
+		} else {
+			options.scanButtonKeyCode = false;
+		}
+		
+		if (document.getElementById("iOnScanButtonLongPressed").checked){
+			options.onScanButtonLongPressed = function(){
+				console.log("[onScanButtonLongPressed]: ScanButton has been long-pressed");
+			};
+		} else {
+			options.onScanButtonLongPressed = function(){};
+		}
+		
+		if (options.acceptPasteInput){
+			options.onPaste = function(sPasteString){
+				console.log("[onPaste]: Data has been pasted: " + sPasteString);
+			}
+		} else {
+			options.onPaste = function(){};
+		}
+							
+		if (document.getElementById("iCompleteHandler").checked){
+			document.addEventListener('scan', scanHandler);
+		} else {
+			document.removeEventListener('scan', scanHandler);
 		}
 		
 		if (document.getElementById("iErrorHandler").checked){
-			document.addEventListener('scannerDetectionError', scannerDetectionErrorHandler);
+			document.addEventListener('scanError', scanErrorHandler);
 		} else {
-			document.removeEventListener('scannerDetectionError', scannerDetectionErrorHandler);
+			document.removeEventListener('scanError', scanErrorHandler);
 		}
 		
-			
+		if (document.getElementById("ikeyCodeMapper").checked){
+			options.keyCodeMapper = function (e) {
+				var code = e.which
+
+				// These are special cases that don't fit the ASCII mapping
+				var exceptions = {
+					32: ' '.charCodeAt(0),
+					186: 59, // ;
+					187: 61, // =
+					188: 44, // ,
+					189: 45, // -
+					190: 46, // .
+					191: 47, // /
+					192: 96, // `
+					219: 91, // [
+					220: 92, // \
+					221: 93, // ]
+					222: 39, // '
+					//numeric keypad
+					96: '0'.charCodeAt(0),
+					97: '1'.charCodeAt(0),
+					98: '2'.charCodeAt(0),
+					99: '3'.charCodeAt(0),
+					100: '4'.charCodeAt(0),
+					101: '5'.charCodeAt(0),
+					102: '6'.charCodeAt(0),
+					103: '7'.charCodeAt(0),
+					104: '8'.charCodeAt(0),
+					105: '9'.charCodeAt(0),
+					106: '*'.charCodeAt(0),
+					107: '+'.charCodeAt(0),
+					109: '-'.charCodeAt(0),
+					110: '.'.charCodeAt(0),
+					111: '/'.charCodeAt(0)
+				};
+
+
+				// Filter out non-alphanumeric key codes unless they're one of the exceptions
+				if(code < 48 || code > 90) {
+					if(exceptions[code] !== undefined) {
+						code = exceptions[code];
+					} else {
+						return null
+					}
+				}
+
+				var ch = String.fromCharCode(code);
+
+				// If shifted translate characters, otherwise make lowercase
+				if(e.shiftKey) {
+					var special = {
+						1: '!',
+						2: '@',
+						3: '#',
+						4: '$',
+						5: '%',
+						6: '^',
+						7: '&',
+						8: '*',
+						9: '(',
+						0: ')',
+						',': '<',
+						'.': '>',
+						'/': '?',
+						';': ':',
+						"'": '"',
+						'[': '{',
+						']': '}',
+						'\\': '|',
+						'`': '~',
+						'-': '_',
+						'=': '+'
+					};
+
+					if(special[ch] !== undefined) {
+						ch = special[ch];
+					}
+				} else {
+					ch = ch.toLowerCase();
+				}
+				return ch;
+			}
+		}
+
 		
 		
-		if (scannerDetector.attachTo(document, options) === undefined) console.log("ScannerDetector Started!");
-		
+		try {
+			if (scannerDetector.attachTo(document, options) === undefined) console.log("ScannerDetector Started!");
+		} catch(e) {
+			if (scannerDetector.setOptionsOf(document, options) === undefined) console.log("ScannerDetectorsettings changed!");
+		}
 		
 
 	}
@@ -219,14 +367,35 @@
 		document.getElementById('consoleTextField').value = "";
 	}
 	
-	function scannerDetectionCompleteHandler(e){
-		console.log("[scannerDetectionCompleteHandler]: Code: " + e.detail.code);
+	function scanHandler(e){
+		console.log("[scanHandler]: Code: " + e.detail.code);
 	}
 	
-	function scannerDetectionErrorHandler(){
-		console.log("[scannerDetectionErrorHandler]: Invalid Scan");
+	function scanErrorHandler(e){
+		console.log("[scanErrorHandler]: Invalid Scan. Receieved Code: " + e.detail.code );
+		console.log("[scanErrorHandler]: Errormessage: " + e.detail.message);
 	}
 	
+	function getScannerDetectorSettings(){
+		var sFormatedErrorString = "Scanner Settings: \n";
+				var aJSONArray = JSON.stringify(scannerDetector.getOptionsOf(document)).split(",");
+				for (prop = 0; prop < aJSONArray.length - 1; prop++){
+					if (aJSONArray[prop+1][0] == '\"'){
+						sFormatedErrorString += aJSONArray[prop] + "," + "\n";
+					} else {
+						sFormatedErrorString += aJSONArray[prop] + ",";
+					}
+				}
+				sFormatedErrorString += aJSONArray[aJSONArray.length - 1];
+				
+				console.log(sFormatedErrorString);
+		
+		
+	}
+	
+	function fireTestInput(){
+		scannerDetector.simulate(document, document.getElementById("iTestInput").value);
+	}
 </script>
 
 
