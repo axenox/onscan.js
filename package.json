@@ -1,5 +1,6 @@
 {
   "name": "onscan.js",
+  "version": "1.0.0",
   "description": "Framework agnostic onScan event fired when using hardware barcode scanners",
   "main": "onscan.js",
   "repository": {
