@@ -5,7 +5,7 @@
   "main": "onscan.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/axenox/onscan.js.git"
+    "url": "https://github.com/axenox/onscan.js.git"
   },
   "keywords": ["barcodescanner", "scanner", "barcode", "barcodes", "RFID", "RFIDscanner", "vanilla JavaScript", "vanilla js"],
   "author": "Andrej Kabachnik",
