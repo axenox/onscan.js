@@ -1,95 +1,148 @@
-onscan.js - Scanner Detection (without jQuery)
-==============================================
+# onScan.js
 
-onscan.js is a small plugin for detecting the use of barcodescanners. The user can do serveral conigurations, define callbacks for specific purpouses or choose between input-methods.
+Framework-agnostic JavaScript scan-events for hardware barcode scanners.
 
-How to use it
--------------
-To initialize the detection, use
+## Quick start
+
+Install via `npm install onscan.js` or `bower install onscan-js`.
+
+```html
+<script type="text/javascript" src="path/to/onscan/onscan.min.js"></script>
+<script type="text/javascript">
+	// Enable scan events for the entire document
+	onScan.attatchTo(document);
+	// Register event listener
+	document.addEventListener('scan', function(sScancode, iQuatity) {
+	    alert(iQuantity + 'x ' + sScancode); 
+	});
+</script>
+```
+
+## Demo & Playground
+
+Lanunch `index.html` after installing to play around with the settings on your own server.
+
+## Requirements
+
+1) A hardware barcode scanner, that 
+	- acts as a keyboard (often called keyboard-wedge-mode), or
+	- pastes the scanned codes (clipboard-mode)
+2) A more-or-less modern browser (IE9+)
+
+## How it works
+
+onScan.js attempts to distinguish between regular input and scan input by measuring input spead, 
+looking for certain prefix and suffix characters, etc. If a scan is detected, it triggers a custom
+JavaScript event called `scan` for the DOM element specified during initialization.
+
+There are lot's of options to fine-tune detection of specific scanner models.
+
+There are also a couple of usefull extras (some requiring specifc hardware):
+
+- Passing a counter along with the scanned code
+- Adding a secondary action to the hardware button of built-in scanners, if it is long pressed
 	
-	scannerDetection.attatchTo(DOMElement); // Initialize attached to object with default options
-    scannerDetection.attatchTo(DOMElement, {...}); // Initialize attached to object with an object that contains options
-	
-To change the settings after initialization:
-	
-	scannerDetection.setOptionsOf([DOMElement], {...}); // The object has to contain the option names and values (see options down below)
+## Some examples
 
-To view the current settings after initialization:
+```javascript
+// Initialize with options
+onScan.attachTo(document, {
+	suffixKeyCodes: [13], // enter-key expected at the end of a scan
+	reactToPaste: true, // Compatibility to built-in scanners in paste-mode (as opposed to keyboard-mode)
+	onScan: function(sCode, iQty) { // Alternative to document.addEventListener('scan')
+console.log('Scanned: ' + iQty + 'x ' + sCode); 
+	},
+	onKeyDetect: function(iKeyCode){ // output all potentially relevant key events - great for debugging!
+console.log('Pressed: ' + iKeyCode);
+	}
+});
 
-	scannerDetection.getOptionsOf(DOMElement);
+// Simulate a scan programmatically - e.g. to test event handlers
+onScan.simulate(document, '1234567890123');
 
-To simulate a scanning after initialization:
+// Change options on-the-fly
+onScan.setOptions(document, {
+	singleScanQty: 5 // change the quantity to 5 for every scan
+});
 
-	scannerDetection.simulate([DOMElement], [Scanned String]);
+// Remove onScan.js from a DOM element completely
+onScan.detatchFrom(document);
+```
 
-To detatch the scanner from an object
+## Options
 
-	scannerDetection.detatchFrom(DOMElement);
+The following options can be set when initializing onScan.js:
 
-
-There can only be one scannerDetector per element at once.
-
-Options
--------
-
-| Option          				| Default           | Description 																																																																																																																																																						|
-| ----------------------------- | ----------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| onComplete					| function(){}		| Callback after detection of a successful scanning																																																																																																																																													|
-| onError						| function(){}		| Callback after detection of a unsuccessful scanning (scanned string in parameter)																																																																																																																																					|
-| onReceive						| function(){}		| Callback after receiving and processing a char (scanned char in parameter)																																																																																																																																						|
-| onKeyDetect					| function(){}		| Callback after detecting a keyDown (key char in parameter) - in contrast to onReceive, this fires for non-character keys like tab, arrows, etc. too!																																																																																																																				|
-| onScanButtonLongPressed		| function(){}		| Callback after the scan button was pressed and held down for a time defined in scanButtonLongPressThreshold. This can only be used if the scan button behaves as a key itself (see scanButtonKeyCode). This long press event can be used to add a secondary action. For example, if the primary action is to count some items with barcodes (e.g. products at goods-in), it is comes very handy if a number pad pops up on the screen when the scan button is held. Large number can then be easily typed it instead of scanning fifty times in a row. (this option requires scanButtonKeyCode to be set to a valid key code!)	|
-| onPaste						| function(){}		| Callback after receiving a value on paste, no matter if it is a valid code or not. Does need acceptPasteInput set on true to work.																																																																																																																								|
-| keyCodeMapper					| function(){}		| Function for adding own keyMapping-Methods (keydown event in parameter, requires char as return-value). If the method returns null, keyevent gets ignored. If the method returns undefined the js fromCharCode function gets used.																																																																																																|
-| timeBeforeScanTest			| 100 				| Wait duration (ms) after keypress event to check if scanning is finished																																																																																																																																							|
-| avgTimeByChar					| 30				| Average time (ms) between 2 chars. Used to do difference between keyboard typing and scanning																																																																																																																																		|
-| minLength						| 6					| Minimum length for a scanning																																																																																																																																																		|
-| endChar						| [9,13]			| Chars to remove and means end of scanning																																																																																																																																															|
-| startChar						| []				| Chars to remove and means start of scanning																																																																																																																																														|
-| ignoreIfFocusOn				| false  			| Ignore scans if the currently focused element matches this selector. Per example, if you set this option to 'input', scanner detection will be disable if an input is focused, when the scan occurs. You can either pass an DOMElement, the ID of an DOMElement or an array, containing the prior named objects.																																																																													|
-| scanButtonKeyCode				| false				| Key code of the scanner hardware button (if the scanner button a acts as a key itself). Knowing this key code is important, because it is not part of the scanned code and must be ignored.																																																																																																										|
-| scanButtonLongPressThreshold	| 500				| You can let the user perform some special action by pressing and holding the scan button. In this case the plugin will fire an callback (set in onScanButtonLongPressed), after a defined button was pressed for a time defined in this option (in ms).																																																																																											|
-| stopPropagation				| false				| Stop immediate propagation on keypress event																																																																																																																																														|
-| preventDefault				| false				| Prevent default action on keypress event																																																																																																																																															|
-| singleScanQty					| 1					| This is the quantity of items which gets returned on a single successful scan. 																																																																																																																																					|
-| acceptPasteInput				| false				| This setting allows you to accept codes, put in via paste event. Some barcodescanners might only work with the use this parameter.																																																																																																																								|
+| Option | Default | Description |
+| ------ | ------- | ----------- |
+| onScan | function(sScanned, iQty){} | Callback after successful scan. Arguments: <br> - `sScanned` - [string] scanned code <br> - `iQty` - [integer] quantity |
+| onScanButtonLongPress | function(){} | Callback after the scan button was pressed and held down for a time defined in `scanButtonLongPressThreshold`. This can only be used if the scan button behaves as a key itself and the `scanButtonKeyCode` option is set. |
+| onScanError | function(oDebug){} | Callback after a scanned string being dropped due to restrictions. Arguments: <br> - `oDebug`	- [object] plain object with various debug data|
+| onKeyDetect | function(iKeyCode, oEvent){} | Callback after every detected key event. Arguments: <br> - `iKeyCode` - [integer] detected key code <br> - `oEvent` [Event] complete event instance	with the key code to be found in `oEvent.which` (browser differences already normalized) |
+| onKeyProcess | function(sChar, oEvent){} | Callback after a key event was decoded and found to be part of a potential scan code. Arguments: <br> - `sChar` - [string] decoded character<br> - `oEvent` [Event] complete event instance with the key code to be found in `oEvent.which` (browser differences already normalized) |
+| onPaste | function(sPasted, oEvent){}	| Callback after detecting a paste. Only fired if `reactToPaste` is set to `true`. Arguments: <br> - `sPasted` - [string] pasted string <br> - `oEvent` - [Event] complete event instance |
+| keyCodeMapper	| function(oEvent){<br>  return String.fromCharCode(oEvent.which)<br>} | Custom function to extract a character from a `keydown` event. The event will be ignored if it returns `null`. |
+| timeBeforeScanTest | 100 | Wait duration (ms) after keypress event to check if scanning finished	|
+| avgTimeByChar | 30 | Average time (ms) between 2 chars. If a scan is detected, but it took more time that [code length] * `avgTimeByChar`, a `scanError` will be triggered. |
+| minLength	| 6	| Minimum length for a scanned code. If the scan ends before reaching this length, it will trigger a `scanError` event. |
+| suffixKeyCodes | [9,13]	| An array with possible suffix codes sent by the scanner after the actual data. Detecting one of them means end of scanning, but they can never be part of the scanned code. Many scanners will send key code `13` (enter) as suffix by default. This can be changed in the configuration in most cases.	|
+| prefixKeyCodes	| [] | An array with possible prefix codes sent by the scanner before the actual data. Detecting one of them means start of scanning, but they can never be part of the scanned code. Many scanners support prefix characters in their configuration. |
+| ignoreIfFocusOn | false | Ignore scans if the currently focused element matches this selector. For example, if you set this option to `'input'`, scan events will not be fired if an input field is focused. You can either pass an DOMElement, a CSS selector or an array containing multiple besaid objects. |
+| scanButtonKeyCode	| false	| Key code of the scanner hardware button (i.e. if the scanner button a acts as a key itself). Knowing this key code is important, because it is not part of the scanned code and must be ignored. |
+| scanButtonLongPressTime | 500 | Time (ms) to hold the scan button before `onScanButtonLongPress` is triggered. Only works if `scanButtonKeyCode` is set. |
+| stopPropagation | false | Stop immediate propagation of events if they are classified as scans. |
+| preventDefault | false | Prevent default action of events if they are classified as scans. |
+| singleScanQty	| 1	| This is the quantity of items which gets returned on a single successful scan. |
+| reactToKeydown | true | Look for scan input among `keydown` events (i.e. if the scanner works in keyboard-mode). |
+| reactToPaste | false | Look for scan input among `paste` events (i.e. if the scanner works in clipboard-mode). |
 
 
-Events
-------
-All callbacks are of type function and can also be bound as event listeners.  
-Like this, you can add multiple callbacks for each event.  
-Of course, events exist only if plugin is initialized on selector.
+## Events
 
-    DOMElement
-        .addEventListener('scan', function(e){...});
-        .addEventListener('scanError', function(e){...});
-		.addEventListener('scannerDetectionKeyReceive', function(e){...});
-        .addEventListener('scannerDetectionKeyDetect',function(e){...})
+| Event name | Parameters passed to listener | Description |
+| ------ | ------- | ----------- |
+| scan | sScanned, iQty | Triggered after successful scan. Handler arguments: <br> - `sScanned` - [string] scanned code <br> - `iQty` - [integer] quantity	|
+| scanButtonLongPress | | Triggered after the scan button was pressed and held down for a time defined in `scanButtonLongPressThreshold`. This can only be used if the scan button behaves as a key itself and the `scanButtonKeyCode` option is set. No arguments are passed to the handler. |
+| scanError | oDebug | Triggered after a scanned string being dropped due to restrictions. Handler arguments: <br> - `oDebug`	- [object] plain object with various debug data	|
 
-###scan
-Callback after detection of a successful scanning  
-Event data: detail:{
-	scanCode: "scanned String",
-	qty: "quantity set in option iSingleScanQty"
-} 
-###scanError
-Callback after detection of a unsuccessful scanning  
-Event data: detail:{
-	scanCode: "scanned String",
-	message: "errormessage",
-	scanDuration: "time elapsed during input of code (ms)",
-	avgTimeByChar: "time set in option",
-	minLength: "minimum length of a valid string set in options"
-}  
-###scannerDetectionKReceive
-Callback after receive and process a char  
-Event data: {evt: {original keypress event}}
-###scannerDetectionKeyDetect
-Callback after detecting a keyDown - in contrast to onReceive, this fires for non-character keys like tab, arrows, etc. too!
-Event data: {evt: {original keypress event}}
+There are two ways to hook your code to `scan` events.
 
-Browser compatibility
----------------------
-On old IE browser (IE<9), `Date.now()` and `Array.indexOf()` are not implemented.  
+You can register regular event listeners on the DOM element, onScan was initialized for:
+
+```javascript
+document
+    .addEventListener('scan', function(sScanned, iQty){ ... });
+    .addEventListener('scanError', function(oDebug){ ... });
+	.addEventListener('scanButtonLongPressed', function(){ ... });
+```
+
+You can also define callback directly in the options, when initializing onScan:
+
+```javascript
+onScan.attachTo(document, {
+	onScan: function(sScanned, iQty) { ... },
+	onScanError: function(oDebug) { ... },
+	onScanButtonLongPress: function() { ... },
+	onKeyDetect: function(iKeyCode, oEvent){ ... }
+	onKeyProcess: function(sChar, oEvent){ ... }
+	onPaste: function(sPasted){ ... }
+});
+```
+
+Using the latter, allows to add more callbacks for debugging purposes - see playgournd for examples.
+
+## Methods
+
+| Method | Description |
+| ------ | ----------- |
+| attachTo(DOMElement, oOptions) | Initializes listening for scan events for given DOM element. Only events fired for this DOM element will be processed. Use `document` to process all possible events. This is the best pick in most cases. <br><br>NOTE: onScan.js can be attached to a DOM element only once. If you, for some reason, need to call `attachTo()` for a single element multiple times, you must call `detachFrom()` first. |
+| detachFrom(DOMElement) | Removes all scanner detection logic from the given DOM element. |
+| simulate(DOMElement, sScancode) | Fires the `scan` event for the given scan code - usefull to trigger listeners manually (e.g. for testing). |
+| setOptions(DOMElement, oOptions) | Removes all scanner detection logic from the given DOM element. |
+| getOptions(DOMElement) | Removes all scanner detection logic from the given DOM element. |
+
+
+## License
+
+onScan.js is an open source project licensed under MIT.
 

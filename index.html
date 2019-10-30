@@ -13,7 +13,7 @@
 </head>
 <body>
 <div class="container">
-	<h1>Testsite for ScannerDetector</h1>
+	<h1>Testsite for onScan</h1>
 	<h2>Settings:</h2> 
 	<form>
 		<table style="witdh:100%">
@@ -30,11 +30,11 @@
 				<td><input id="iMinLength" class="form-control" value=6></input></td>
 				<td></td>
 			<tr>
-				<td><label>endCharCodes: </label></td>
+				<td><label>suffixKeyCodes: </label></td>
 				<td><input id="iEndChar" class="form-control" value=9,13></input></td>
 				<td></td>
 			<tr>
-				<td><label>startCharCodes: </label></td>
+				<td><label>prefixKeyCodes: </label></td>
 				<td><input id="iStartChar" class="form-control"></input></td>
 				<td></td>
 			<tr>
@@ -46,11 +46,11 @@
 				<td><input id="iScanButtonKeyCode" class="form-control" ></input></td>
 				<td></td>	
 			<tr>
-				<td><label>scanButtonLongPressThreshold: </label></td>
+				<td><label>scanButtonLongPressTime: </label></td>
 				<td><input id="iScanButtonLongPressThreshold" class="form-control" value=500></input></td>
 				<td></td>
 			<tr>
-				<td><label>onScanButtonLongPressed: </label></td>
+				<td><label>onScanButtonLongPress: </label></td>
 				<td><input type="checkbox" id="iOnScanButtonLongPressed" class="form-control"></input></td>
 				<td></td>
 			<tr>
@@ -67,14 +67,14 @@
 				<td></td>
 			<tr>
 				<td><label>onScan: </label></td>
-				<td><input type="checkbox" id="iOnComplete" class="form-control" checked=true></input></td>
+				<td><input type="checkbox" id="iOnComplete" class="form-control" checked="checked"></input></td>
 				<td></td>
 			<tr>
 				<td><label>onScanError: </label></td>
-				<td><input type="checkbox" id="iOnError" class="form-control" checked=true></input></td>
+				<td><input type="checkbox" id="iOnError" class="form-control" checked="checked"></input></td>
 				<td></td>
 			<tr>
-				<td><label>onKeyProcessed: </label></td>
+				<td><label>onKeyProcess: </label></td>
 				<td><input type="checkbox" id="iOnKeyProcessed" class="form-control"></input></td>
 				<td></td>
 			<tr>
@@ -82,7 +82,7 @@
 				<td><input type="checkbox" id="iOnKeyDetect" class="form-control"></input></td>
 				<td></td>
 			<tr>
-				<td><label>acceptPasteInput: </label></td>
+				<td><label>reactToPaste: </label></td>
 				<td><input type="checkbox" id="iAcceptPasteInput" class="form-control" ></input></td>
 				<td></td>
 			<tr>
@@ -99,16 +99,16 @@
 				<td></td>
 			<tr>
 				<td><input id="iTestInput" class="form-control" placeholder="enter example code" ></input></td>
-				<td><input type="button" id="bFireTestInput" class="btn btn-primary" onclick="fireTestInput()" value="Fire Test Input"> </input></td>
+				<td><input type="button" id="bFireTestInput" class="btn btn-primary" onclick="fireTestInput()" value="Fire Test Input"></input></td>
 				<td></td>
 			
 		</table>
 	</form>
 
 
-	<input type="button" id="bGenerateScannerDetector" class="btn btn-primary" onclick="generateScannerDetector()" value="Generate!"> </input>
-	<input type="button" id="bDestroyScannerDetector" class="btn btn-primary" onclick="destroyScannerDetector()" value="Destroy!"> </input>
-	<input type="button" id="bGgetScannerDetectorSettings" class="btn btn-primary" onclick="getScannerDetectorSettings()" value="Display Current Settings"> </input>
+	<input type="button" id="bGenerateonScan" class="btn btn-primary" onclick="generateonScan()" value="attachTo(document)"></input>
+	<input type="button" id="bDestroyonScan" class="btn btn-primary" onclick="destroyonScan()" value="detachFrom(document)"></input>
+	<input type="button" id="bGgetonScanSettings" class="btn btn-primary" onclick="getonScanSettings()" value="getOptions()"></input>
 	
 
 				
@@ -117,7 +117,7 @@
 	<textarea id="consoleTextField" class="form-control" rows="10"></textarea>
 
 	<br>
-	<input type="button" id="clearTextArea" class="btn btn-primary" onclick="clearTextArea()" value="Clear Console Log"> </input>
+	<input type="button" id="clearTextArea" class="btn btn-primary" onclick="clearTextArea()" value="Clear Console Log"></input>
 
 </div>
 <script>
@@ -146,37 +146,37 @@
 
 	document.getElementById("focusExample").style.visibility="hidden";
 	
-	function generateScannerDetector(){
+	function generateonScan(){
 		
 		
 		var prop;
 		var array;
-		var endCharCodes = [];
-		var startCharCodes = [];
+		var suffixKeyCodes = [];
+		var prefixKeyCodes = [];
 		
 		
 		if (document.getElementById("iEndChar").value){
 			array = document.getElementById("iEndChar").value.split(",");
 			for (prop in array)
-				endCharCodes.push(parseInt(array[prop]));
-	//			endCharCodes.push(parseInt(prop));
+				suffixKeyCodes.push(parseInt(array[prop]));
+	//			suffixKeyCodes.push(parseInt(prop));
 		}
 		if (document.getElementById("iStartChar").value){
 			array = document.getElementById("iStartChar").value.split(",")
 			for (prop in document.getElementById("iStartChar").value.split(","))
-				startCharCodes.push(parseInt(array[prop]));
+				prefixKeyCodes.push(parseInt(array[prop]));
 		}
 						
 		var options = {
 			timeBeforeScanTest: parseInt(document.getElementById("iTimeBeforeScanTest").value), 
 			avgTimeByChar: parseInt(document.getElementById("iAvgTimeByChar").value),
 			minLength: parseInt(document.getElementById("iMinLength").value), 
-			endCharCodes: endCharCodes,
-			startCharCodes: startCharCodes, 
-			scanButtonLongPressThreshold: parseInt(document.getElementById("iScanButtonLongPressThreshold").value), 
+			suffixKeyCodes: suffixKeyCodes,
+			prefixKeyCodes: prefixKeyCodes, 
+			scanButtonLongPressTime: parseInt(document.getElementById("iScanButtonLongPressThreshold").value), 
 			stopPropagation: document.getElementById("iStopPropagation").checked, 
 			preventDefault: document.getElementById("iPreventDefault").checked,
-			acceptPasteInput: document.getElementById("iAcceptPasteInput").checked,
+			reactToPaste: document.getElementById("iAcceptPasteInput").checked,
 			singleScanQty: parseInt(document.getElementById("iSingleScanQty").value)
 		}
 		
@@ -205,17 +205,17 @@
 		
 		
 		if (document.getElementById("iOnKeyProcessed").checked){
-			options.onKeyProcessed = function(key){
-				console.log("[onKeyProcessed]: Processed: " + key.which);
+			options.onKeyProcess = function(iKey, oEvent){
+				console.log("[onKeyProcess]: Processed key code: " + iKey);
 			};
 		} else {
-			options.onKeyProcessed = function(){};
+			options.onKeyProcess = function(){};
 		}
 		
 		
 		if (document.getElementById("iOnKeyDetect").checked){
-			options.onKeyDetect = function(key){
-				console.log("[onKeyDetect]: Detected Key: " + key.which);
+			options.onKeyDetect = function(iKey, oEvent){
+				console.log("[onKeyDetect]: Detected key code: " + iKey);
 			};
 		} else {
 			options.onKeyDetect = function(){};
@@ -235,14 +235,14 @@
 		}
 		
 		if (document.getElementById("iOnScanButtonLongPressed").checked){
-			options.onScanButtonLongPressed = function(){
-				console.log("[onScanButtonLongPressed]: ScanButton has been long-pressed");
+			options.onScanButtonLongPress = function(){
+				console.log("[onScanButtonLongPress]: ScanButton has been long-pressed");
 			};
 		} else {
-			options.onScanButtonLongPressed = function(){};
+			options.onScanButtonLongPress = function(){};
 		}
 		
-		if (options.acceptPasteInput){
+		if (options.reactToPaste){
 			options.onPaste = function(sPasteString){
 				console.log("[onPaste]: Data has been pasted: " + sPasteString);
 			}
@@ -264,102 +264,30 @@
 		
 		if (document.getElementById("ikeyCodeMapper").checked){
 			options.keyCodeMapper = function (e) {
-				var code = e.which
-
-				// These are special cases that don't fit the ASCII mapping
-				var exceptions = {
-					32: ' '.charCodeAt(0),
-					186: 59, // ;
-					187: 61, // =
-					188: 44, // ,
-					189: 45, // -
-					190: 46, // .
-					191: 47, // /
-					192: 96, // `
-					219: 91, // [
-					220: 92, // \
-					221: 93, // ]
-					222: 39, // '
-					//numeric keypad
-					96: '0'.charCodeAt(0),
-					97: '1'.charCodeAt(0),
-					98: '2'.charCodeAt(0),
-					99: '3'.charCodeAt(0),
-					100: '4'.charCodeAt(0),
-					101: '5'.charCodeAt(0),
-					102: '6'.charCodeAt(0),
-					103: '7'.charCodeAt(0),
-					104: '8'.charCodeAt(0),
-					105: '9'.charCodeAt(0),
-					106: '*'.charCodeAt(0),
-					107: '+'.charCodeAt(0),
-					109: '-'.charCodeAt(0),
-					110: '.'.charCodeAt(0),
-					111: '/'.charCodeAt(0)
-				};
-
-
-				// Filter out non-alphanumeric key codes unless they're one of the exceptions
-				if(code < 48 || code > 90) {
-					if(exceptions[code] !== undefined) {
-						code = exceptions[code];
-					} else {
-						return null
-					}
-				}
-
-				var ch = String.fromCharCode(code);
-
-				// If shifted translate characters, otherwise make lowercase
-				if(e.shiftKey) {
-					var special = {
-						1: '!',
-						2: '@',
-						3: '#',
-						4: '$',
-						5: '%',
-						6: '^',
-						7: '&',
-						8: '*',
-						9: '(',
-						0: ')',
-						',': '<',
-						'.': '>',
-						'/': '?',
-						';': ':',
-						"'": '"',
-						'[': '{',
-						']': '}',
-						'\\': '|',
-						'`': '~',
-						'-': '_',
-						'=': '+'
-					};
-
-					if(special[ch] !== undefined) {
-						ch = special[ch];
-					}
-				} else {
-					ch = ch.toLowerCase();
-				}
-				return ch;
+				var iKeyCode = e.which;
+				var sChar = String.fromCharCode(iKeyCode);
+				console.log('[keyCodeMapper]: Decoding key code "' + iKeyCode + '" to "' + sChar + '"')
+			}
+		} else {
+			options.keyCodeMapper = function(oEvent){
+				return String.fromCharCode(oEvent.which);
 			}
 		}
 
 		
 		
 		try {
-			if (scannerDetector.attachTo(document, options) === undefined) console.log("ScannerDetector Started!");
+			if (onScan.attachTo(document, options) === undefined) console.log("onScan Started!");
 		} catch(e) {
-			if (scannerDetector.setOptionsOf(document, options) === undefined) console.log("ScannerDetectorsettings changed!");
+			if (onScan.setOptions(document, options) === undefined) console.log("onScansettings changed!");
 		}
 		
 
 	}
 	
-	function destroyScannerDetector(){
-		console.log("ScannerDetector destroyed!");
-		scannerDetector.detachFrom(document);	
+	function destroyonScan(){
+		console.log("onScan destroyed!");
+		onScan.detachFrom(document);	
 	}
 
 	
@@ -376,9 +304,9 @@
 		console.log("[scanErrorHandler]: Errormessage: " + e.detail.message);
 	}
 	
-	function getScannerDetectorSettings(){
+	function getonScanSettings(){
 		var sFormatedErrorString = "Scanner Settings: \n";
-				var aJSONArray = JSON.stringify(scannerDetector.getOptionsOf(document)).split(",");
+				var aJSONArray = JSON.stringify(onScan.getOptions(document)).split(",");
 				for (prop = 0; prop < aJSONArray.length - 1; prop++){
 					if (aJSONArray[prop+1][0] == '\"'){
 						sFormatedErrorString += aJSONArray[prop] + "," + "\n";
@@ -394,7 +322,7 @@
 	}
 	
 	function fireTestInput(){
-		scannerDetector.simulate(document, document.getElementById("iTestInput").value);
+		onScan.simulate(document, document.getElementById("iTestInput").value);
 	}
 </script>
 
