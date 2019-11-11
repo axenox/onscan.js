@@ -6,7 +6,7 @@ Framework-agnostic JavaScript scan-events for hardware barcode scanners.
 
 1. Install via `npm install onscan.js` or `bower install onscan-js`
 2. Include `onscan.min.js` in your script
-3. Add the following script anywhere
+3. Add the following initilization script to run on page/view load.
 
 ```javascript
 // Enable scan events for the entire document
@@ -19,7 +19,8 @@ document.addEventListener('scan', function(sScancode, iQuatity) {
 
 ## Demo & Playground
 
-Lanunch `index.html` after installing to play around with the settings on your own server.
+Here is an [online demo](https://a.kabachnik.info/onscan-js-playground.html). A similar demo is available within the 
+package: just load `index.html` in the your after installing to play around with the settings on your own server.
 
 ## Requirements
 

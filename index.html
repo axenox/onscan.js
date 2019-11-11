@@ -16,136 +16,173 @@
   <span class="navbar-brand mb-0 h1">onScan.js Playground</span>
 </nav>
 <div class="container">
-	<div class="row">
-		<div class="col-12">
-			<h3>Options</h3> 
-		</div>
-	</div>
-	<form>
+	<form id="playground" class="form-horizontal">
 		<div class="row">
-			<div class="col-12">
-				<table style="witdh:100%">
-					<tr>
-						<td><label>timeBeforeScanTest: </label></td>
-						<td><input id="iTimeBeforeScanTest" class="form-control" value=100></input></td>
-						<td></td>
-					<tr>
-						<td><label>avgTimeByChar: </label></td>
-						<td><input id="iAvgTimeByChar" class="form-control" value=30></input></td>
-						<td></td>
-					<tr>
-						<td><label>minLength: </label></td>
-						<td><input id="iMinLength" class="form-control" value=6></input></td>
-						<td></td>
-					<tr>
-						<td><label>suffixKeyCodes: </label></td>
-						<td><input id="iEndChar" class="form-control" value=9,13></input></td>
-						<td></td>
-					<tr>
-						<td><label>prefixKeyCodes: </label></td>
-						<td><input id="iStartChar" class="form-control"></input></td>
-						<td></td>
-					<tr>
-						<td><label>ignoreIfFocusOn: </label></td>
-						<td><input type="checkbox" id="iIgnoreIfFocusOn" class="form-control"></input></td>
-						<td><input id="focusExample" class="form-control" placeholder="focus here"></input></td>
-					<tr>
-						<td><label>scanButtonKeyCode: </label></td>
-						<td><input id="iScanButtonKeyCode" class="form-control" ></input></td>
-						<td></td>	
-					<tr>
-						<td><label>scanButtonLongPressTime: </label></td>
-						<td><input id="iScanButtonLongPressThreshold" class="form-control" value=500></input></td>
-						<td></td>
-					<tr>
-						<td><label>onScanButtonLongPress: </label></td>
-						<td><input type="checkbox" id="iOnScanButtonLongPressed" class="form-control"></input></td>
-						<td></td>
-					<tr>
-						<td><label>singleScanQty </label></td>
-						<td><input id="iSingleScanQty" class="form-control" value=1></input></td>
-						<td></td>
-					<tr>
-						<td><label>stopPropagation: </label></td>
-						<td><input type="checkbox" id="iStopPropagation" class="form-control"></input></td>
-						<td></td>
-					<tr>
-						<td><label>preventDefault: </label></td>
-						<td><input type="checkbox" id="iPreventDefault" class="form-control"></input></td>
-						<td></td>
-					<tr>
-						<td><label>onScan: </label></td>
-						<td><input type="checkbox" id="iOnComplete" class="form-control" checked="checked"></input></td>
-						<td></td>
-					<tr>
-						<td><label>onScanError: </label></td>
-						<td><input type="checkbox" id="iOnError" class="form-control"></input></td>
-						<td></td>
-					<tr>
-						<td><label>onKeyProcess: </label></td>
-						<td><input type="checkbox" id="iOnKeyProcessed" class="form-control"></input></td>
-						<td></td>
-					<tr>
-						<td><label>onKeyDetect: </label></td>
-						<td><input type="checkbox" id="iOnKeyDetect" class="form-control"></input></td>
-						<td></td>
-					<tr>
-						<td><label>reactToPaste: </label></td>
-						<td><input type="checkbox" id="iAcceptPasteInput" class="form-control" ></input></td>
-						<td></td>
-					<tr>
-						<td><label>scan Eventhandler: </label></td>
-						<td><input type="checkbox" id="iCompleteHandler" class="form-control"></input></td>
-						<td></td>
-					<tr>
-						<td><label>scanError Eventhandler: </label></td>
-						<td><input type="checkbox" id="iErrorHandler" class="form-control" ></input></td>
-						<td></td>
-					<tr>
-						<td><label>keyCodeMapper: </label></td>
-						<td><input type="checkbox" id="ikeyCodeMapper" class="form-control" ></input></td>
-						<td></td>
-					<tr>
-						<td>
-					
-				</table>
+			<div class="col-12 col-xs-12">
+				<textarea style="margin: 5px 5px 0 5px" id="consoleTextField" readonly="readonly" class="form-control" rows="10"></textarea>
 			</div>
 		</div>
 		<div class="row">
-			<div class="col-12">
+			<div class="col-12 col-xs-12">
+				<input style="margin: 5px 5px 0 5px" type="button" id="clearTextArea" class="btn btn-light btn-default" onclick="clearTextArea()" value="Clear Console Log" />
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-12 col-xs-12">
 				<h3>Methods</h3>
-				<input style="margin: 5px 5px 0 5px" type="button" id="bGenerateonScan" class="btn btn-primary" onclick="generateonScan()" value="attachTo(document)"></input>
-				<input style="margin: 5px 5px 0 5px" type="button" id="bDestroyonScan" class="btn btn-primary" onclick="destroyonScan()" value="detachFrom(document)"></input>
-				<input style="margin: 5px 5px 0 5px" type="button" id="bGgetonScanSettings" class="btn btn-primary" onclick="getonScanSettings()" value="getOptions()"></input>
 			</div>
 		</div>
 		<div class="row">
-			<div class="col-12">
+			<div class="col-12 col-xs-12 col-md-4">
 				<div style="margin: 5px 5px 0 5px" class="input-group mb-3">
-  					<input id="iTestInput" class="form-control" placeholder="enter scan code"></input>
-					<div class="input-group-append">
-				    	<span class="input-group-text btn btn-primary" id="bFireTestInput" onclick="fireTestInput()" >simulate()</span>
+  					<input id="iTestInput" class="form-control" placeholder="Enter scan code" />
+					<div class="input-group-append input-group-btn">
+				    	<input type="button" class="btn btn-primary" id="bFireTestInput" onclick="fireTestInput()" value="simulate()">
 				  	</div>
 				</div>
 			</div>
+			<div class="col-12 col-xs-12 col-md-8">
+				<input style="margin: 5px 5px 0 5px" type="button" id="bGenerateonScan" class="btn btn-primary" onclick="initOnScan()" value="attachTo(document)" />
+				<input style="margin: 5px 5px 0 5px" type="button" id="bDestroyonScan" class="btn btn-primary" onclick="destroyOnScan()" value="detachFrom(document)" />
+				<input style="margin: 5px 5px 0 5px" type="button" id="bGgetonScanSettings" class="btn btn-primary" onclick="getonScanSettings()" value="getOptions()" />
+			</div>
 		</div>
-		
+		<div class="row">
+			<div class="col-12 col-xs-12 col-md-6">
+				<h3>Mode</h3>
+				<div class="form-group row">
+					<label class="control-label col-12 col-xs-12 col-sm-7 col-lg-6">reactToKeydown:</label>
+					<div class="col-12 col-xs-12 col-sm-5 checkbox form-check">
+						<input id="iAcceptKeyInput" type="checkbox" checked="checked"/>
+					</div>
+				</div>
+				<div class="form-group row">
+					<label class="control-label col-12 col-xs-12 col-sm-7 col-lg-6">reactToPaste:</label>
+					<div class="col-12 col-xs-12 col-sm-5 checkbox form-check">
+						<input id="iAcceptPasteInput" type="checkbox" checked="checked"/>
+					</div>
+				</div>
+				<h3>Events / Callbacks</h3>
+				<div class="form-group row">
+					<label class="control-label col-12 col-xs-12 col-sm-7 col-lg-6">onScan:</label>
+					<div class="col-12 col-xs-12 col-sm-5 checkbox form-check">
+						<input id="iOnComplete" type="checkbox" checked="checked"/>
+					</div>
+				</div>
+				<div class="form-group row">
+					<label class="control-label col-12 col-xs-12 col-sm-7 col-lg-6">onScanButtonLongPress:</label>
+					<div class="col-12 col-xs-12 col-sm-5 checkbox form-check">
+						<input id="iOnScanButtonLongPressed" type="checkbox" />
+					</div>
+				</div>
+				<div class="form-group row">
+					<label class="control-label col-12 col-xs-12 col-sm-7 col-lg-6">onError:</label>
+					<div class="col-12 col-xs-12 col-sm-5 checkbox form-check">
+						<input id="iOnError" type="checkbox" />
+					</div>
+				</div>
+				<div class="form-group row">
+					<label class="control-label col-12 col-xs-12 col-sm-7 col-lg-6">onKeyDetect:</label>
+					<div class="col-12 col-xs-12 col-sm-5 checkbox form-check">
+						<input id="iOnKeyDetect" type="checkbox" />
+					</div>
+				</div>
+				<div class="form-group row">
+					<label class="control-label col-12 col-xs-12 col-sm-7 col-lg-6">onKeyProcess:</label>
+					<div class="col-12 col-xs-12 col-sm-5 checkbox form-check">
+						<input id="iOnKeyProcessed" type="checkbox" />
+					</div>
+				</div>
+				<div class="form-group row">
+					<label class="control-label col-12 col-xs-12 col-sm-7 col-lg-6">onPaste:</label>
+					<div class="col-12 col-xs-12 col-sm-5 checkbox form-check">
+						<input id="iOnPaste" type="checkbox" />
+					</div>
+				</div>
+				<div class="form-group row">
+					<label class="control-label col-12 col-xs-12 col-sm-7 col-lg-6">Use event handlers, not callbacks:</label>
+					<div class="col-12 col-xs-12 col-sm-5 checkbox form-check">
+						<input id="iCompleteHandler" type="checkbox" />
+					</div>
+				</div>
+			</div>
+			<div class="col-12 col-xs-12 col-md-6">
+				<h3>Options</h3>
+				<div class="form-group row">
+					<label class="control-label col-12 col-xs-12 col-sm-7 col-lg-6">timeBeforeScanTest:</label>
+					<div class="col-12 col-xs-12 col-sm-5">
+						<input id="iTimeBeforeScanTest" class="form-control" value="100" />
+					</div>
+				</div>
+				<div class="form-group row">
+					<label class="control-label col-12 col-xs-12 col-sm-7 col-lg-6">avgTimeByChar:</label>
+					<div class="col-12 col-xs-12 col-sm-5">
+						<input id="iAvgTimeByChar" class="form-control" value="30" />
+					</div>
+				</div>
+				<div class="form-group row">
+					<label class="control-label col-12 col-xs-12 col-sm-7 col-lg-6">minLength:</label>
+					<div class="col-12 col-xs-12 col-sm-5">
+						<input id="iMinLength" class="form-control" value="6" />
+					</div>
+				</div>
+				<div class="form-group row">
+					<label class="control-label col-12 col-xs-12 col-sm-7 col-lg-6">suffixKeyCodes:</label>
+					<div class="col-12 col-xs-12 col-sm-5">
+						<input id="iEndChar" class="form-control" value="9,13" />
+					</div>
+				</div>
+				<div class="form-group row">
+					<label class="control-label col-12 col-xs-12 col-sm-7 col-lg-6">prefixKeyCodes:</label>
+					<div class="col-12 col-xs-12 col-sm-5">
+						<input id="iStartChar" class="form-control" value="" />
+					</div>
+				</div>
+				<div class="form-group row">
+					<label class="control-label col-12 col-xs-12 col-sm-7 col-lg-6">ignoreIfFocusOn:</label>
+					<div class="col-12 col-xs-12 col-sm-5 checkbox form-check">
+						<input id="iIgnoreIfFocusOn" type="checkbox" />
+					</div>
+				</div>
+				<div class="form-group row">
+					<label class="control-label col-12 col-xs-12 col-sm-7 col-lg-6">scanButtonKeyCode:</label>
+					<div class="col-12 col-xs-12 col-sm-5">
+						<input id="iScanButtonKeyCode" class="form-control" value="" />
+					</div>
+				</div>
+				<div class="form-group row">
+					<label class="control-label col-12 col-xs-12 col-sm-7 col-lg-6">scanButtonLongPressTime:</label>
+					<div class="col-12 col-xs-12 col-sm-5">
+						<input id="iScanButtonLongPressThreshold" class="form-control" value="500" />
+					</div>
+				</div>
+				<div class="form-group row">
+					<label class="control-label col-12 col-xs-12 col-sm-7 col-lg-6">singleScanQty:</label>
+					<div class="col-12 col-xs-12 col-sm-5">
+						<input id="iSingleScanQty" class="form-control" value="1" />
+					</div>
+				</div>
+				<div class="form-group row">
+					<label class="control-label col-12 col-xs-12 col-sm-7 col-lg-6">keyCodeMapper:</label>
+					<div class="col-12 col-xs-12 col-sm-5 checkbox form-check">
+						<input id="ikeyCodeMapper" type="checkbox" />
+					</div>
+				</div>
+				<div class="form-group row">
+					<label class="control-label col-12 col-xs-12 col-sm-7 col-lg-6">stopPropagation:</label>
+					<div class="col-12 col-xs-12 col-sm-5 checkbox form-check">
+						<input id="iStopPropagation" type="checkbox" />
+					</div>
+				</div>
+				<div class="form-group row">
+					<label class="control-label col-12 col-xs-12 col-sm-7 col-lg-6">preventDefault:</label>
+					<div class="col-12 col-xs-12 col-sm-5 checkbox form-check">
+						<input id="iPreventDefault" type="checkbox" />
+					</div>
+				</div>
+			</div>
+		</div>
 	</form>
-	<div class="row">
-		<div class="col-12">
-			<h3>Output</h3> 
-		</div>
-	</div>
-	<div class="row">
-		<div class="col-12">
-			<textarea style="margin: 5px 5px 0 5px" id="consoleTextField" readonly="readonly" class="form-control" rows="10"></textarea>
-		</div>
-	</div>
-	<div class="row">
-		<div class="col-12">
-			<input style="margin: 5px 5px 0 5px" type="button" id="clearTextArea" class="btn btn-primary" onclick="clearTextArea()" value="Clear Console Log"></input>
-		</div>
-	</div>
 </div>
 <script>
 
@@ -157,23 +194,21 @@
 
 	console.log = function(message, error) {
 		console.olog(message);
+		var oOutput = document.getElementById('consoleTextField');
 		if (error){ 
-			document.getElementById('consoleTextField').value += "ERROR: " + message + '\n';
+			oOutput.value += "ERROR: " + message + '\n';
 		} else {
-			document.getElementById('consoleTextField').value += ('> ' + message + '\n');
+			oOutput.value += ('> ' + message + '\n');
 		}
-		document.getElementById('consoleTextField').scrollTop = document.getElementById('consoleTextField').scrollHeight;
+		oOutput.scrollTop = oOutput.scrollHeight;
 	};
 	console.error = console.debug = console.info =  console.log;
 
 	window.onerror = function(msg){
 			console.log(msg, true);
 	}
-
-
-	document.getElementById("focusExample").style.visibility="hidden";
 	
-	function generateonScan(){
+	function initOnScan(){
 		
 		
 		var prop;
@@ -204,6 +239,7 @@
 			stopPropagation: document.getElementById("iStopPropagation").checked, 
 			preventDefault: document.getElementById("iPreventDefault").checked,
 			reactToPaste: document.getElementById("iAcceptPasteInput").checked,
+			reactToKeyDown: document.getElementById("iAcceptKeyInput").checked,
 			singleScanQty: parseInt(document.getElementById("iSingleScanQty").value)
 		}
 		
@@ -249,10 +285,9 @@
 		}
 		
 		if (document.getElementById("iIgnoreIfFocusOn").checked){
-			options.ignoreIfFocusOn = "focusExample";
-			document.getElementById("focusExample").style.visibility = "visible";
+			options.ignoreIfFocusOn = ".input";
 		} else {
-			document.getElementById("focusExample").style.visibility="hidden";	
+			options.ignoreIfFocusOn = false;
 		}
 		
 		if (document.getElementById("iScanButtonKeyCode").value){
@@ -269,7 +304,7 @@
 			options.onScanButtonLongPress = function(){};
 		}
 		
-		if (options.reactToPaste){
+		if (document.getElementById("iOnPaste").checked){
 			options.onPaste = function(sPasteString){
 				console.log("[onPaste]: Data has been pasted: " + sPasteString);
 			}
@@ -283,7 +318,7 @@
 			document.removeEventListener('scan', scanHandler);
 		}
 		
-		if (document.getElementById("iErrorHandler").checked){
+		if (document.getElementById("iCompleteHandler").checked){
 			document.addEventListener('scanError', scanErrorHandler);
 		} else {
 			document.removeEventListener('scanError', scanErrorHandler);
@@ -294,6 +329,7 @@
 				var iKeyCode = e.which;
 				var sChar = String.fromCharCode(iKeyCode);
 				console.log('[keyCodeMapper]: Decoding key code "' + iKeyCode + '" to "' + sChar + '"')
+				return sChar;
 			}
 		} else {
 			options.keyCodeMapper = function(oEvent){
@@ -312,11 +348,10 @@
 
 	}
 	
-	function destroyonScan(){
+	function destroyOnScan(){
 		console.log("onScan destroyed!");
 		onScan.detachFrom(document);	
 	}
-
 	
 	function clearTextArea(){
 		document.getElementById('consoleTextField').value = "";
@@ -353,7 +388,18 @@
 	}
 	
 	(function(){
-		generateonScan();
+		initOnScan();
+		document.querySelectorAll("#playground input").forEach(function(oInput){
+			if (oInput.type == 'button' || oInput.readonly) {
+				return;
+			}
+			
+			oInput.addEventListener('change', function(){
+				console.log('onScan configuration updated');
+				onScan.detachFrom(document);
+				initOnScan();
+			});
+		});
 	})();
 </script>
 
