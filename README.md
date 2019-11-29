@@ -10,7 +10,7 @@ Framework-agnostic JavaScript scan-events for hardware barcode scanners.
 
 ```javascript
 // Enable scan events for the entire document
-onScan.attatchTo(document);
+onScan.attachTo(document);
 // Register event listener
 document.addEventListener('scan', function(sScancode, iQuatity) {
     alert(iQuantity + 'x ' + sScancode); 
