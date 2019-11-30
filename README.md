@@ -66,7 +66,7 @@ onScan.setOptions(document, {
 });
 
 // Remove onScan.js from a DOM element completely
-onScan.detatchFrom(document);
+onScan.detachFrom(document);
 ```
 
 ## Options
