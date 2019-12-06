@@ -1,5 +1,9 @@
 # onScan.js - version history
 
+### 1.3.2
+
+- FIX option `ignoreIfFocusOn` not working
+
 ### 1.3.0
 
 - Added option `reactToKeydown` to disable keyboard-mode if favor of clipboard-mode only

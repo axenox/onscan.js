@@ -133,23 +133,23 @@ var onScan = {
 	
 	_isFocusOnIgnoredElement: function(oDomElement){
 		
-		oIgnoredObject = oDomElement['scannerDetectionData'].options.ignoreIfFocusOn;
+		ignoreSelectors = oDomElement['scannerDetectionData'].options.ignoreIfFocusOn;
 
-        if(!oIgnoredObject){
+        if(!ignoreSelectors){
 			return false;
 		}
 	
 		var oFocused = document.activeElement;
 		
 		// checks if ignored element is an array, and if so it checks if one of the elements of it is an active one
-		if (Array.isArray(oIgnoredObject)){
-			for(var i=0; i<oIgnoredObject.length; i++){
-				if(Object.is(oFocused, oIgnoredObject[i]) || Object.is(oFocused, document.getElementById(oIgnoredObject[i]))){
+		if (Array.isArray(ignoreSelectors)){
+			for(var i=0; i<ignoreSelectors.length; i++){
+				if(oFocused.matches(ignoreSelectors[i]) === true){
 					return true;
 				}
 			}
 		// if the option consists of an single element, it only checks this one
-		} else if (Object.is(oFocused, oIgnoredObject) || Object.is(oFocused, document.getElementById(oIgnoredObject))){
+		} else if (oFocused.matches(ignoreSelectors)){
 			return true;					
 		}
 		
