@@ -51,57 +51,57 @@
 			<div class="col-12 col-xs-12 col-md-6">
 				<h3>Mode</h3>
 				<div class="form-group row">
-					<label class="control-label col-12 col-xs-12 col-sm-7 col-lg-6">reactToKeydown:</label>
-					<div class="col-12 col-xs-12 col-sm-5 checkbox form-check">
+					<label class="control-label col-9 col-xs-9 col-sm-7 col-lg-6">reactToKeydown:</label>
+					<div class="col-3 col-xs-3 col-sm-5 checkbox form-check">
 						<input id="iAcceptKeyInput" type="checkbox" checked="checked"/>
 					</div>
 				</div>
 				<div class="form-group row">
-					<label class="control-label col-12 col-xs-12 col-sm-7 col-lg-6">reactToPaste:</label>
-					<div class="col-12 col-xs-12 col-sm-5 checkbox form-check">
+					<label class="control-label col-9 col-xs-9 col-sm-7 col-lg-6">reactToPaste:</label>
+					<div class="col-3 col-xs-3 col-sm-5 checkbox form-check">
 						<input id="iAcceptPasteInput" type="checkbox" checked="checked"/>
 					</div>
 				</div>
 				<h3>Events / Callbacks</h3>
 				<div class="form-group row">
-					<label class="control-label col-12 col-xs-12 col-sm-7 col-lg-6">onScan:</label>
-					<div class="col-12 col-xs-12 col-sm-5 checkbox form-check">
+					<label class="control-label col-9 col-xs-9 col-sm-7 col-lg-6">onScan:</label>
+					<div class="col-3 col-xs-3 col-sm-5 checkbox form-check">
 						<input id="iOnComplete" type="checkbox" checked="checked"/>
 					</div>
 				</div>
 				<div class="form-group row">
-					<label class="control-label col-12 col-xs-12 col-sm-7 col-lg-6">onScanButtonLongPress:</label>
-					<div class="col-12 col-xs-12 col-sm-5 checkbox form-check">
+					<label class="control-label col-9 col-xs-9 col-sm-7 col-lg-6">onScanButtonLongPress:</label>
+					<div class="col-3 col-xs-3 col-sm-5 checkbox form-check">
 						<input id="iOnScanButtonLongPressed" type="checkbox" />
 					</div>
 				</div>
 				<div class="form-group row">
-					<label class="control-label col-12 col-xs-12 col-sm-7 col-lg-6">onError:</label>
-					<div class="col-12 col-xs-12 col-sm-5 checkbox form-check">
+					<label class="control-label col-9 col-xs-9 col-sm-7 col-lg-6">onError:</label>
+					<div class="col-3 col-xs-3 col-sm-5 checkbox form-check">
 						<input id="iOnError" type="checkbox" />
 					</div>
 				</div>
 				<div class="form-group row">
-					<label class="control-label col-12 col-xs-12 col-sm-7 col-lg-6">onKeyDetect:</label>
-					<div class="col-12 col-xs-12 col-sm-5 checkbox form-check">
+					<label class="control-label col-9 col-xs-9 col-sm-7 col-lg-6">onKeyDetect:</label>
+					<div class="col-3 col-xs-3 col-sm-5 checkbox form-check">
 						<input id="iOnKeyDetect" type="checkbox" />
 					</div>
 				</div>
 				<div class="form-group row">
-					<label class="control-label col-12 col-xs-12 col-sm-7 col-lg-6">onKeyProcess:</label>
-					<div class="col-12 col-xs-12 col-sm-5 checkbox form-check">
+					<label class="control-label col-9 col-xs-9 col-sm-7 col-lg-6">onKeyProcess:</label>
+					<div class="col-3 col-xs-3 col-sm-5 checkbox form-check">
 						<input id="iOnKeyProcessed" type="checkbox" />
 					</div>
 				</div>
 				<div class="form-group row">
-					<label class="control-label col-12 col-xs-12 col-sm-7 col-lg-6">onPaste:</label>
-					<div class="col-12 col-xs-12 col-sm-5 checkbox form-check">
+					<label class="control-label col-9 col-xs-9 col-sm-7 col-lg-6">onPaste:</label>
+					<div class="col-3 col-xs-3 col-sm-5 checkbox form-check">
 						<input id="iOnPaste" type="checkbox" />
 					</div>
 				</div>
 				<div class="form-group row">
-					<label class="control-label col-12 col-xs-12 col-sm-7 col-lg-6">Use event handlers, not callbacks:</label>
-					<div class="col-12 col-xs-12 col-sm-5 checkbox form-check">
+					<label class="control-label col-9 col-xs-9 col-sm-7 col-lg-6">Use event handlers, not callbacks:</label>
+					<div class="col-3 col-xs-3 col-sm-5 checkbox form-check">
 						<input id="iCompleteHandler" type="checkbox" />
 					</div>
 				</div>
@@ -139,9 +139,16 @@
 					</div>
 				</div>
 				<div class="form-group row">
-					<label class="control-label col-12 col-xs-12 col-sm-7 col-lg-6">ignoreIfFocusOn:</label>
-					<div class="col-12 col-xs-12 col-sm-5 checkbox form-check">
-						<input id="iIgnoreIfFocusOn" type="checkbox" />
+					<label class="control-label col-9 col-xs-9 col-sm-7 col-lg-6">ignoreIfFocusOn:</label>
+					<div class="col-12 col-xs-12 col-sm-5">
+						<div class="input-group">
+						  <div class="input-group-prepend input-group-addon">
+						    <div class="input-group-text">
+						      <input id="iIgnoreIfFocusOn" type="checkbox" />
+						    </div>
+						  </div>
+						  <input id="iIgnoreIfFocusOnSelector" class="form-control" value="input" />
+						</div>
 					</div>
 				</div>
 				<div class="form-group row">
@@ -163,20 +170,20 @@
 					</div>
 				</div>
 				<div class="form-group row">
-					<label class="control-label col-12 col-xs-12 col-sm-7 col-lg-6">keyCodeMapper:</label>
-					<div class="col-12 col-xs-12 col-sm-5 checkbox form-check">
+					<label class="control-label col-9 col-xs-9 col-sm-7 col-lg-6">keyCodeMapper:</label>
+					<div class="col-3 col-xs-3 col-sm-5 checkbox form-check">
 						<input id="ikeyCodeMapper" type="checkbox" />
 					</div>
 				</div>
 				<div class="form-group row">
-					<label class="control-label col-12 col-xs-12 col-sm-7 col-lg-6">stopPropagation:</label>
-					<div class="col-12 col-xs-12 col-sm-5 checkbox form-check">
+					<label class="control-label col-9 col-xs-9 col-sm-7 col-lg-6">stopPropagation:</label>
+					<div class="col-3 col-xs-3 col-sm-5 checkbox form-check">
 						<input id="iStopPropagation" type="checkbox" />
 					</div>
 				</div>
 				<div class="form-group row">
-					<label class="control-label col-12 col-xs-12 col-sm-7 col-lg-6">preventDefault:</label>
-					<div class="col-12 col-xs-12 col-sm-5 checkbox form-check">
+					<label class="control-label col-9 col-xs-9 col-sm-7 col-lg-6">preventDefault:</label>
+					<div class="col-3 col-xs-3 col-sm-5 checkbox form-check">
 						<input id="iPreventDefault" type="checkbox" />
 					</div>
 				</div>
@@ -285,9 +292,11 @@
 		}
 		
 		if (document.getElementById("iIgnoreIfFocusOn").checked){
-			options.ignoreIfFocusOn = "input";
+			document.getElementById("iIgnoreIfFocusOnSelector").removeAttribute("disabled");
+			options.ignoreIfFocusOn = document.getElementById("iIgnoreIfFocusOnSelector").value;
 		} else {
 			options.ignoreIfFocusOn = false;
+			document.getElementById("iIgnoreIfFocusOnSelector").disabled = "disabled";
 		}
 		
 		if (document.getElementById("iScanButtonKeyCode").value){
