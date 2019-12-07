@@ -19,8 +19,10 @@ document.addEventListener('scan', function(sScancode, iQuatity) {
 
 ## Demo & Playground
 
-Here is an [online demo](https://a.kabachnik.info/onscan-js-playground.html). A similar demo is available within the 
-package: just load `index.html` in the your after installing to play around with the settings on your own server.
+[Online demo](https://a.kabachnik.info/onscan-js-playground.html) 
+
+A similar demo is available within the 
+package: just load `index.html` from the lib's folder to play around with the settings on your own server.
 
 ## Requirements
 
@@ -143,7 +145,10 @@ Note: there are more callbacks in the options, than event types. The non-event c
 
 This library was inspired by the jQuery plugin [jQuery ScannerDetection](https://github.com/iuyes/jQuery-Scanner-Detection) by Julien Maurel.
 
+## History
+
+See [HISTORY.md](https://github.com/axenox/onscan.js/blob/master/HISTORY.md).
+
 ## License
 
 onScan.js is an open source project licensed under MIT.
-
