@@ -83,7 +83,9 @@ The following options can be set when initializing onScan.js:
 | onKeyDetect | function(iKeyCode, oEvent){} | Callback after every detected key event. <br><br>Arguments: <br> - `iKeyCode` - [integer] detected key code <br> - `oEvent` [Event] complete event instance    with the key code to be found in `oEvent.which` (browser differences already normalized) |
 | onKeyProcess | function(sChar, oEvent){} | Callback after a key event was decoded and found to be part of a potential scan code. <br><br>Arguments: <br> - `sChar` - [string] decoded character<br> - `oEvent` [Event] complete event instance with the key code to be found in `oEvent.which` (browser differences already normalized) |
 | onPaste | function(sPasted, oEvent){}    | Callback after detecting a paste. Only fired if `reactToPaste` is set to `true`. <br><br>Arguments: <br> - `sPasted` - [string] pasted string <br> - `oEvent` - [Event] complete event instance |
-| keyCodeMapper    | function(oEvent){<br>  return String.fromCharCode(oEvent.which)<br>} | A function to extract the character from a `keydown` event. The event will be ignored if the function returns `null`. |
+| keyCodeMapper    | <pre>function(oEvent){
+  return this.decodeKeyEvent(oEvent);
+}</pre> | A function to extract the character from a `keydown` event. The event will be ignored if the function returns `null`. |
 | timeBeforeScanTest | 100 | Wait duration (ms) after keypress event to check if scanning finished    |
 | avgTimeByChar | 30 | Average time (ms) between 2 chars. If a scan is detected, but it took more time that [code length] * `avgTimeByChar`, a `scanError` will be triggered. |
 | minLength    | 6    | Minimum length for a scanned code. If the scan ends before reaching this length, it will trigger a `scanError` event. |
@@ -140,6 +142,7 @@ Note: there are more callbacks in the options, than event types. The non-event c
 | simulate | DOMElement, sScancode | Fires the `scan` event for the given scan code - usefull to trigger listeners manually (e.g. for testing). |
 | setOptions | DOMElement, oOptions | Removes all scanner detection logic from the given DOM element. |
 | getOptions | DOMElement | Removes all scanner detection logic from the given DOM element. |
+| decodeKeyEvent | Event | Extracts the scanned string character from a keyboard event (i.e. `keydown`) |
 
 ## Credits
 

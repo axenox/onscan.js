@@ -24,7 +24,7 @@
 		</div>
 		<div class="row">
 			<div class="col-12 col-xs-12">
-				<input style="margin: 5px 5px 0 5px" type="button" id="clearTextArea" class="btn btn-light btn-default" onclick="clearTextArea()" value="Clear Console Log" />
+				<input style="margin: 5px 5px 0 5px" type="button" id="clearTextArea" class="btn btn-light btn-default" onclick="javascript:document.getElementById('consoleTextField').value = '';" value="Clear Console Log" />
 			</div>
 		</div>
 		<div class="row">
@@ -191,7 +191,7 @@
 		</div>
 	</form>
 </div>
-<script>
+<script type="text/javascript">
 
 	if (typeof console  != "undefined") 
     if (typeof console.log != 'undefined')
@@ -336,7 +336,7 @@
 		if (document.getElementById("ikeyCodeMapper").checked){
 			options.keyCodeMapper = function (e) {
 				var iKeyCode = e.which;
-				var sChar = String.fromCharCode(iKeyCode);
+				var sChar = onScan.decodeKeyEvent(e);
 				console.log('[keyCodeMapper]: Decoding key code "' + iKeyCode + '" to "' + sChar + '"')
 				return sChar;
 			}
