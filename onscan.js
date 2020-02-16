@@ -191,7 +191,7 @@ var onScan = {
 	 */
 	_isFocusOnIgnoredElement: function(oDomElement){
 		
-		ignoreSelectors = oDomElement['scannerDetectionData'].options.ignoreIfFocusOn;
+		var ignoreSelectors = oDomElement['scannerDetectionData'].options.ignoreIfFocusOn;
 
         if(!ignoreSelectors){
 			return false;
