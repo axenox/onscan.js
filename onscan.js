@@ -227,19 +227,21 @@ var onScan = {
 		var sScanCode = oScannerData.vars.stringWriting;
 		var iFirstCharTime = oScannerData.vars.firstCharTime;
 		var iLastCharTime = oScannerData.vars.lastCharTime;
-	
+		var oScanError = {};
+        var oEvent;
+        
 		switch(true){
 			
 			// detect codes that are too short
 			case (sScanCode.length<oOptions.minLength):
-				var oScanError = {
+				oScanError = {
 					message: "Receieved code is shorter then minimal length"
 				};
 				break;
 				
 			// detect codes that were entered too slow	
 			case ((iLastCharTime - iFirstCharTime) > (sScanCode.length * oOptions.avgTimeByChar)):
-				var oScanError = {
+				oScanError = {
 					message: "Receieved code was not entered in time"
 				};				
 				break;
@@ -247,7 +249,7 @@ var onScan = {
 			// if a code was not filtered out earlier it is valid	
 			default:
 				oOptions.onScan.call(oDomElement, sScanCode, iSingleScanQty);
-				var oEvent = new CustomEvent(
+				oEvent = new CustomEvent(
 					'scan',
 					{	
 						detail: { 
@@ -269,7 +271,7 @@ var onScan = {
 		
 		oOptions.onScanError.call(oDomElement, oScanError);
 		
-		var oEvent = new CustomEvent(
+		oEvent = new CustomEvent(
 			'scanError',
 			oScanError
 		);
@@ -277,7 +279,6 @@ var onScan = {
 		
 		onScan._reinitialize(oDomElement);
 		return false;
-		
     },
 
     /**
