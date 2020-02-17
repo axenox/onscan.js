@@ -35,7 +35,7 @@ var onScan = {
 			preventDefault:false, // Prevent default action on keypress event
 			reactToKeydown:true, // look for scan input in keyboard events
 			reactToPaste:false, // look for scan input in paste events
-			singleScanQty: 1 // Quantity of Items put out to onScan in a single scan
+			singleScanQty: 1, // Quantity of Items put out to onScan in a single scan
 		}
 								
 		oOptions = this._mergeOptions(oDefaults, oOptions);
@@ -328,7 +328,9 @@ var onScan = {
 	 */
 	_handleKeyDown: function(e){
 		// overwrite the which value of the event with keycode for cross platform compatibility
-		e.which = onScan._getNormalizedKeyNum(e);
+		if (e.which !== onScan._getNormalizedKeyNum(e)) {
+			e.which = onScan._getNormalizedKeyNum(e);
+		}
 		var iKeyCode = e.which;
 		var oOptions = this['scannerDetectionData'].options;
 		var oVars = this['scannerDetectionData'].vars;
