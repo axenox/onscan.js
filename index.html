@@ -368,7 +368,7 @@
 		console.log("[scanHandler]: Code: " + e.detail.code);
 	}
 	
-	function scanErrorHandler(e){console.log(e);
+	function scanErrorHandler(e){
 		var sFormatedErrorString = "Error Details: {\n";
 		for (var i in e.detail){
 			sFormatedErrorString += '    ' + i + ': ' + e.detail[i] + ",\n";
