@@ -76,7 +76,7 @@
 					</div>
 				</div>
 				<div class="form-group row">
-					<label class="control-label col-9 col-xs-9 col-sm-7 col-lg-6">onError:</label>
+					<label class="control-label col-9 col-xs-9 col-sm-7 col-lg-6">onScanError:</label>
 					<div class="col-3 col-xs-3 col-sm-5 checkbox form-check">
 						<input id="iOnError" type="checkbox" />
 					</div>
@@ -260,13 +260,11 @@
 				
 		if (document.getElementById("iOnError").checked){
 			options.onScanError = function(err){
-				var sFormatedErrorString = "Error Details: \n";
-				var aJSONArray = JSON.stringify(err).split(",");
-				for (prop = 0; prop < aJSONArray.length - 1; prop++){
-					sFormatedErrorString += aJSONArray[prop] + "," + "\n";
+				var sFormatedErrorString = "Error Details: {\n";
+				for (var i in err){
+					sFormatedErrorString += '    ' + i + ': ' + err[i] + ",\n";
 				}
-				sFormatedErrorString += aJSONArray[aJSONArray.length - 1];
-				
+				sFormatedErrorString = sFormatedErrorString.trim().replace(/,$/, '') + "\n}";
 				console.log("[onScanError]: " + sFormatedErrorString);
 			}; 	
 		} else {
@@ -370,9 +368,13 @@
 		console.log("[scanHandler]: Code: " + e.detail.code);
 	}
 	
-	function scanErrorHandler(e){
-		console.log("[scanErrorHandler]: Invalid Scan. Receieved Code: " + e.detail.code );
-		console.log("[scanErrorHandler]: Errormessage: " + e.detail.message);
+	function scanErrorHandler(e){console.log(e);
+		var sFormatedErrorString = "Error Details: {\n";
+		for (var i in e.detail){
+			sFormatedErrorString += '    ' + i + ': ' + e.detail[i] + ",\n";
+		}
+		sFormatedErrorString = sFormatedErrorString.trim().replace(/,$/, '') + "\n}";
+		console.log("[scanErrorHandler]: " + sFormatedErrorString);
 	}
 	
 	function getonScanSettings(){

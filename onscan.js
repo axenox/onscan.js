@@ -216,6 +216,8 @@ var onScan = {
     },
 	
     /**
+     * Validates the scan code accumulated by the given DOM element and fires the respective events.
+     * 
      * @private
      * @param DomElement oDomElement
      * @return boolean
@@ -233,7 +235,7 @@ var onScan = {
 		switch(true){
 			
 			// detect codes that are too short
-			case (sScanCode.length<oOptions.minLength):
+			case (sScanCode.length < oOptions.minLength):
 				oScanError = {
 					message: "Receieved code is shorter then minimal length"
 				};
@@ -272,8 +274,8 @@ var onScan = {
 		oOptions.onScanError.call(oDomElement, oScanError);
 		
 		oEvent = new CustomEvent(
-			'scanError',
-			oScanError
+			'scanError', 
+			{detail: oScanError}
 		);
 		oDomElement.dispatchEvent(oEvent);
 		
