@@ -80,12 +80,10 @@ The following options can be set when initializing onScan.js:
 | onScan | function(sScanned, iQty){} | Callback after successful scan. <br><br>Arguments: <br> - `sScanned` - [string] scanned code <br> - `iQty` - [integer] quantity |
 | onScanButtonLongPress | function(){} | Callback after the scan button was pressed and held down for a time defined in `scanButtonLongPressThreshold`. This can only be used if the scan button behaves as a key itself and the `scanButtonKeyCode` option is set. |
 | onScanError | function(oDebug){} | Callback after a scanned string being dropped due to restrictions. <br><br>Arguments: <br> - `oDebug`    - [object] plain object with various debug data|
-| onKeyDetect | function(iKeyCode, oEvent){} | Callback after every detected key event. <br><br>Arguments: <br> - `iKeyCode` - [integer] detected key code <br> - `oEvent` [Event] complete event instance    with the key code to be found in `oEvent.which` (browser differences already normalized) |
-| onKeyProcess | function(sChar, oEvent){} | Callback after a key event was decoded and found to be part of a potential scan code. <br><br>Arguments: <br> - `sChar` - [string] decoded character<br> - `oEvent` [Event] complete event instance with the key code to be found in `oEvent.which` (browser differences already normalized) |
+| onKeyDetect | function(iKeyCode, oEvent){} | Callback after every detected key event. <br><br>Arguments: <br> - `iKeyCode` - [integer] detected key code <br> - `oEvent` [KeyboardEvent] complete event instance |
+| onKeyProcess | function(sChar, oEvent){} | Callback after a key event was decoded and found to be part of a potential scan code. <br><br>Arguments: <br> - `sChar` - [string] decoded character<br> - `oEvent` [KeyboardEvent] complete event instance |
 | onPaste | function(sPasted, oEvent){}    | Callback after detecting a paste. Only fired if `reactToPaste` is set to `true`. <br><br>Arguments: <br> - `sPasted` - [string] pasted string <br> - `oEvent` - [Event] complete event instance |
-| keyCodeMapper    | <pre>function(oEvent){
-  return this.decodeKeyEvent(oEvent);
-}</pre> | A function to extract the character from a `keydown` event. The event will be ignored if the function returns `null`. |
+| keyCodeMapper    | onScan.decodeKeyEvent() | A function to extract the character from a `keydown` event. The event will be ignored if the function returns `null`. See chapter "Decoding key codes" below for more information. |
 | timeBeforeScanTest | 100 | Wait duration (ms) after keypress event to check if scanning finished    |
 | avgTimeByChar | 30 | Average time (ms) between 2 chars. If a scan is detected, but it took more time that [code length] * `avgTimeByChar`, a `scanError` will be triggered. |
 | minLength    | 6    | Minimum length for a scanned code. If the scan ends before reaching this length, it will trigger a `scanError` event. |
@@ -143,6 +141,33 @@ Note: there are more callbacks in the options, than event types. The non-event c
 | setOptions | DOMElement, oOptions | Removes all scanner detection logic from the given DOM element. |
 | getOptions | DOMElement | Removes all scanner detection logic from the given DOM element. |
 | decodeKeyEvent | Event | Extracts the scanned string character from a keyboard event (i.e. `keydown`) |
+
+## Decoding key codes
+
+By default, onScan.js ignores any key codes other than those matching letters and numbers. The latter are transformed into characters using built-in browser logic. These [key codes](https://www.cambiaresearch.com/articles/15/javascript-char-codes-key-codes) are converted to characters:
+
+- `48`-`90` (letters and regular numbers)
+- `96`-`105` (numeric keypad numbers)
+- `106`-`111` (numeric keypad operations)
+
+This should work for the vast majority of cases. However, if you encounter strange extra characters in the codes read or miss some characters (like hypens), you can override the default decoding algorithm by specifying a custom `keyCodeMapper` like this:
+
+```javascript
+onScan.attachTo(document, {
+    onScan: function(sScanned, iQty) { ... },
+    keyCodeMapper: function(oEvent) {
+    		// Look for special keycodes or other event properties specific to
+    		// your scanner
+    		if (oEvent.which = 'your_special_key_code') {
+    			return 'xxx';
+    		}
+    		// Fall back to the default decoder in all other cases
+    		return this.decodeKeyEvent;
+    }
+});
+```
+
+Background: Barcode scanners operating in keyboard-mode (as opposed to clipboard-mode) work by simulating pressing keyboard keys. They send key codes and the browser interprets them as input. This works great for letters and numbers. However, many barcode scanners also send additional characters depending on their configuration: e.g. the trailing enter (key code `13`), prefix or suffix codes, delimiters, and even their own "virtual" key codes. There are also cases, when key codes are used in a non-standard way. All these cases can be easily treated using a custom `keyCodeMapper` as shown above.
 
 ## Credits
 
