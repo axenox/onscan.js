@@ -1,5 +1,11 @@
 # onScan.js - version history
 
+### 1.4
+
+- Improved default key code decoder: ignore non-alphanumeric characters, case sensitive now, etc.
+- Wrapped onScan as a JS module
+- Fixed JS errors in browsers, that do not allow overriding KeyboardEvent.which
+
 ### 1.3.2
 
 - FIX option `ignoreIfFocusOn` not working
