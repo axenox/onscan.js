@@ -347,9 +347,11 @@
 		
 		
 		try {
-			if (onScan.attachTo(document, options) === undefined) console.log("onScan Started!");
+			onScan.attachTo(document, options);
+			console.log("onScan Started!");
 		} catch(e) {
-			if (onScan.setOptions(document, options) === undefined) console.log("onScansettings changed!");
+			onScan.setOptions(document, options);
+			console.log("onScansettings changed!");
 		}
 		
 
