@@ -140,6 +140,19 @@ var onScan = {
 	},
 	
 	/**
+	 * Transforms key codes into characters.
+	 * 
+	 * By default, only the follwing key codes are taken into account
+	 * - 48-90 (letters and regular numbers)
+	 * - 96-105 (numeric keypad numbers)
+	 * - 106-111 (numeric keypad operations)
+	 * 
+	 * All other keys will yield empty strings!
+	 * 
+	 * The above keycodes will be decoded using the KeyboardEvent.key property on modern
+	 * browsers. On older browsers the method will fall back to String.fromCharCode()
+	 * putting the result to upper/lower case depending on KeyboardEvent.shiftKey if
+	 * it is set.
 	 * 
 	 * @param KeyboardEvent oEvent
 	 * @return string
@@ -147,11 +160,19 @@ var onScan = {
 	decodeKeyEvent : function (oEvent) {
 		iCode = oEvent.which;
 		switch (true) {
-			// numbers and letters
-			case iCode >= 48 && iCode <= 90:
-				return String.fromCharCode(iCode);
-			// numeric keypad
-			case iCode >= 96 && iCode <= 111:
+			case iCode >= 48 && iCode <= 90: // numbers and letters
+			case iCode >= 106 && iCode <= 111: // operations on numeric keypad (+, -, etc.)
+				if (oEvent.key !== undefined) {
+					return oEvent.key;
+				}
+			
+				var sDecoded = String.fromCharCode(iCode);
+				switch (oEvent.shiftKey) {
+					case false: sDecoded.toLowerCase(sDecoded); break;
+					case true: sDecoded.toUpperCase(sDecoded); break;
+				}
+				return sDecoded;
+			case iCode >= 96 && iCode <= 105: // numbers on numeric keypad
 				return 0+(iCode-96);
 		}
 		return '';
