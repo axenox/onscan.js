@@ -156,13 +156,13 @@ This should work for the vast majority of cases. However, if you encounter stran
 onScan.attachTo(document, {
     onScan: function(sScanned, iQty) { ... },
     keyCodeMapper: function(oEvent) {
-    		// Look for special keycodes or other event properties specific to
-    		// your scanner
-    		if (oEvent.which = 'your_special_key_code') {
-    			return 'xxx';
-    		}
-    		// Fall back to the default decoder in all other cases
-    		return this.decodeKeyEvent;
+		// Look for special keycodes or other event properties specific to
+		// your scanner
+		if (oEvent.which = 'your_special_key_code') {
+			return 'xxx';
+		}
+		// Fall back to the default decoder in all other cases
+		return this.decodeKeyEvent;
     }
 });
 ```
