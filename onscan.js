@@ -354,10 +354,14 @@
 		 */
 		_handleKeyDown: function(e){
 			// overwrite the which value of the event with keycode for cross platform compatibility
-			if (e.which !== onScan._getNormalizedKeyNum(e)) {
-				e.which = onScan._getNormalizedKeyNum(e);
+			var iKeyCode = onScan._getNormalizedKeyNum(e);
+			if (e.which !== iKeyCode) {
+				try {
+					e.which = iKeyCode;
+				} catch (e) {
+					console.warn('Cannot normalize KeyboardEvent.which: ', e);
+				}
 			}
-			var iKeyCode = e.which;
 			var oOptions = this['scannerDetectionData'].options;
 			var oVars = this['scannerDetectionData'].vars;
 			
@@ -405,7 +409,6 @@
 				// Otherwise, just add the character to the scan string we're building	
 				default:
 					var character = oOptions.keyCodeMapper.call(this, e);
-				console.log(character);
 					if (character === null){
 						return;
 					}
