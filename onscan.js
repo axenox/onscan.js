@@ -6,7 +6,7 @@
     typeof define === 'function' && define.amd ? define(factory()) :
     global.onScan = factory()
 }(this, (function () {
-	const onScan = {	
+	var onScan = {	
 		
 		/**
 		 * 
