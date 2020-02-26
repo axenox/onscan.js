@@ -338,13 +338,7 @@
 				console.log('[keyCodeMapper]: Decoding key code "' + iKeyCode + '" to "' + sChar + '"')
 				return sChar;
 			}
-		} else {
-			options.keyCodeMapper = function(oEvent){
-				return String.fromCharCode(oEvent.which);
-			}
-		}
-
-		
+		}		
 		
 		try {
 			onScan.attachTo(document, options);
