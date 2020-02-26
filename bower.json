@@ -8,7 +8,7 @@
 		"Andrej Kabachnik",
 		"Thomas Michael"
   ],
-  "keywords": ["onscan.js", "onscan", "barcodescanner", "scanner", "barcode", "barcodes", "RFID", "RFIDscanner", "vanilla JavaScript", "vanilla js"],
+  "keywords": ["barcode", "RFID", "scanner", "scan"],
   
   "ignore": [
     "**/.*",
