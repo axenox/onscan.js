@@ -162,7 +162,7 @@ onScan.attachTo(document, {
 			return 'xxx';
 		}
 		// Fall back to the default decoder in all other cases
-		return this.decodeKeyEvent;
+		return onScan.decodeKeyEvent(oEvent);
     }
 });
 ```
