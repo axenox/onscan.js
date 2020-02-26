@@ -1,5 +1,14 @@
 # onScan.js - version history
 
+### 1.4.2
+
+- FIX missing update of min-version for 1.4.1
+- FIX further improvements for key code normalization
+
+### 1.4.1
+
+- FIX default keyboard event decoder
+
 ### 1.4
 
 - Improved default key code decoder: ignore non-alphanumeric characters, case sensitive now, etc.
