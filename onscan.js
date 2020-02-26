@@ -6,7 +6,7 @@
     typeof define === 'function' && define.amd ? define(factory()) :
     global.onScan = factory()
 }(this, (function () {
-	return {	
+	const onScan = {	
 		
 		/**
 		 * 
@@ -26,7 +26,7 @@
 				onKeyProcess: function(sChar, oEvent){}, // Callback after receiving and processing a char (scanned char in parameter)
 				onKeyDetect: function(iKeyCode, oEvent){}, // Callback after detecting a keyDown (key char in parameter) - in contrast to onKeyProcess, this fires for non-character keys like tab, arrows, etc. too!
 				onPaste: function(sPasted, oEvent){}, // Callback after receiving a value on paste, no matter if it is a valid code or not
-				keyCodeMapper: function(oEvent) {return this.decodeKeyEvent}, // Custom function to decode a keydown event into a character. Must return decoded character or NULL if the given event should not be processed.
+				keyCodeMapper: function(oEvent) {return onScan.decodeKeyEvent(oEvent)}, // Custom function to decode a keydown event into a character. Must return decoded character or NULL if the given event should not be processed.
 				onScanButtonLongPress: function(){}, // Callback after detection of a successfull scan while the scan button was pressed and held down
 				scanButtonKeyCode:false, // Key code of the scanner hardware button (if the scanner button a acts as a key itself) 
 				scanButtonLongPressTime:500, // How long (ms) the hardware button should be pressed, until a callback gets executed
@@ -405,6 +405,7 @@
 				// Otherwise, just add the character to the scan string we're building	
 				default:
 					var character = oOptions.keyCodeMapper.call(this, e);
+				console.log(character);
 					if (character === null){
 						return;
 					}
@@ -481,4 +482,6 @@
 			return;
 		}
 	};
+	
+	return onScan;
 })));
