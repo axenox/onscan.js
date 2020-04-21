@@ -143,7 +143,7 @@ Note: there are more callbacks in the options, than event types. The non-event c
 | ------ | --------- | ----------- |
 | attachTo | DOMElement, oOptions | Initializes listening for scan events for given DOM element. Only events fired for this DOM element will be processed. Use `document` to process all possible events. This is the best pick in most cases. <br><br>NOTE: onScan.js can be attached to a DOM element only once. If you, for some reason, need to call `attachTo()` for a single element multiple times, you must call `detachFrom()` first. |
 | detachFrom | DOMElement | Removes all scanner detection logic from the given DOM element. |
-| simulate | DOMElement, sScancode|aKeyArray | Fires the `scan` event for the given scan code - usefull to trigger listeners manually (e.g. for testing). Accepts either an already decoded string or an array with key codes or event property objects - see below for details. |
+| simulate | DOMElement, mStringOrArray | Fires the `scan` event for the given scan code - usefull to trigger listeners manually (e.g. for testing). Accepts either an already decoded string or an array with key codes or event property objects - see below for details. |
 | setOptions | DOMElement, oOptions | Removes all scanner detection logic from the given DOM element. |
 | getOptions | DOMElement | Removes all scanner detection logic from the given DOM element. |
 | decodeKeyEvent | Event | Extracts the scanned string character from a keyboard event (i.e. `keydown`) |
