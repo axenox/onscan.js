@@ -1,5 +1,10 @@
 # onScan.js - version history
 
+### 1.4.3
+
+- NEW onScan.simulate() now accepts arrays of key codes or event properties
+- FIX shiftKey detection was not working
+
 ### 1.4.2
 
 - FIX missing update of min-version for 1.4.1

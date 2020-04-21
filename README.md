@@ -62,6 +62,12 @@ onScan.attachTo(document, {
 // Simulate a scan programmatically - e.g. to test event handlers
 onScan.simulate(document, '1234567890123');
 
+// Simulate raw keyCodes
+onScan.simulate(document, [48,49,50]);
+
+// Simulate keydown events
+onScan.simulate(document, [ {keyCode:80, key:'P', shiftKey:true}, {keyCode:49,key:'1'} ]);
+
 // Change options on-the-fly
 onScan.setOptions(document, {
     singleScanQty: 5 // change the quantity to 5 for every scan
@@ -137,14 +143,14 @@ Note: there are more callbacks in the options, than event types. The non-event c
 | ------ | --------- | ----------- |
 | attachTo | DOMElement, oOptions | Initializes listening for scan events for given DOM element. Only events fired for this DOM element will be processed. Use `document` to process all possible events. This is the best pick in most cases. <br><br>NOTE: onScan.js can be attached to a DOM element only once. If you, for some reason, need to call `attachTo()` for a single element multiple times, you must call `detachFrom()` first. |
 | detachFrom | DOMElement | Removes all scanner detection logic from the given DOM element. |
-| simulate | DOMElement, sScancode | Fires the `scan` event for the given scan code - usefull to trigger listeners manually (e.g. for testing). |
+| simulate | DOMElement, sScancode|aKeyArray | Fires the `scan` event for the given scan code - usefull to trigger listeners manually (e.g. for testing). Accepts either an already decoded string or an array with key codes or event property objects - see below for details. |
 | setOptions | DOMElement, oOptions | Removes all scanner detection logic from the given DOM element. |
 | getOptions | DOMElement | Removes all scanner detection logic from the given DOM element. |
 | decodeKeyEvent | Event | Extracts the scanned string character from a keyboard event (i.e. `keydown`) |
 
 ## Decoding key codes
 
-By default, onScan.js ignores any key codes other than those matching letters and numbers. The latter are transformed into characters using built-in browser logic. These [key codes](https://www.cambiaresearch.com/articles/15/javascript-char-codes-key-codes) are converted to characters:
+By default, onScan.js ignores any key codes other than those matching letters and numbers. The latter are transformed into characters using built-in browser logic (i.e. the `event.key`). These [key codes](https://www.cambiaresearch.com/articles/15/javascript-char-codes-key-codes) are converted to characters:
 
 - `48`-`90` (letters and regular numbers)
 - `96`-`105` (numeric keypad numbers)
@@ -167,7 +173,17 @@ onScan.attachTo(document, {
 });
 ```
 
-Background: Barcode scanners operating in keyboard-mode (as opposed to clipboard-mode) work by simulating pressing keyboard keys. They send key codes and the browser interprets them as input. This works great for letters and numbers. However, many barcode scanners also send additional characters depending on their configuration: e.g. the trailing enter (key code `13`), prefix or suffix codes, delimiters, and even their own "virtual" key codes. There are also cases, when key codes are used in a non-standard way. All these cases can be easily treated using a custom `keyCodeMapper` as shown above.
+Background: Barcode scanners operating in keyboard-mode (as opposed to clipboard-mode) work by simulating pressing keyboard keys. They send numeric key codes and the browser interprets them as input. This works great for letters and numbers. However, many barcode scanners also send additional characters depending on their configuration: e.g. the trailing enter (key code `13`), prefix or suffix codes, delimiters, and even their own "virtual" key codes. There are also cases, when key codes are used in a non-standard way. All these cases can be easily treated using a custom `keyCodeMapper` as shown above.
+
+### Simulating key codes
+
+If you do not have your scanner at hand, you can simulate keyboard events programmatically via `onScan.simulate()`. You can pass the desired scan code in the following formats:
+
+- a string - in this case no keyCode decoding is done and the code is merely validated against constraints like minLenght, etc.
+- an array of keyCodes (e.g. `[70,71,80]`) - will produce `keydown` events with corresponding `keyCode` properties. NOTE: these events will have empty `key` properties, so decoding may yield different results than with native events.
+- an array of objects (e.g. `[{keyCode: 70, key: "F", shiftKey: true}, {keyCode: 71, key: "g"}]`) - this way almost any event can be simulated exactly, but it's a lot of work to do.
+
+Hint: use the `onKeyDetect` checkbox to in the playground to get a full dump of each keyboard event an just paste them in your simulation code.
 
 ## Credits
 

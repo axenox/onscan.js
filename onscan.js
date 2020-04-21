@@ -163,18 +163,18 @@
 		 * @return string
 		 */
 		decodeKeyEvent : function (oEvent) {
-			iCode = oEvent.which;
+			var iCode = this._getNormalizedKeyNum(oEvent);
 			switch (true) {
 				case iCode >= 48 && iCode <= 90: // numbers and letters
 				case iCode >= 106 && iCode <= 111: // operations on numeric keypad (+, -, etc.)
-					if (oEvent.key !== undefined) {
+					if (oEvent.key !== undefined && oEvent.key !== '') {
 						return oEvent.key;
 					}
 				
 					var sDecoded = String.fromCharCode(iCode);
 					switch (oEvent.shiftKey) {
-						case false: sDecoded.toLowerCase(sDecoded); break;
-						case true: sDecoded.toUpperCase(sDecoded); break;
+						case false: sDecoded = sDecoded.toLowerCase(); break;
+						case true: sDecoded = sDecoded.toUpperCase(); break;
 					}
 					return sDecoded;
 				case iCode >= 96 && iCode <= 105: // numbers on numeric keypad
@@ -184,17 +184,38 @@
 		},
 		
 		/**
-		 * 
+		 * Simulates a scan of the provided code.
+	     *
+		 * The scan code can be defined as
+		 * - a string - in this case no keyCode decoding is done and the code is merely validated
+		 * against constraints like minLenght, etc.
+		 * - an array of keyCodes (e.g. `[70,71,80]`) - will produce `keydown` events with corresponding
+		 * `keyCode` properties. NOTE: these events will have empty `key` properties, so decoding may
+		 * yield different results than with native events.
+		 * - an array of objects (e.g. `[{keyCode: 70, key: "F", shiftKey: true}, {keyCode: 71, key: "g"}]`) -
+		 * this way almost any event can be simulated, but it's a lot of work to do.
+		 *
 		 * @param DomElement oDomElement
-		 * @param String sTestString
+		 * @param string|array mStringOrArray
 		 * @return self
 		 */
-		simulate: function(oDomElement, sTestString){
-			var oVars = oDomElement['scannerDetectionData'].vars;
-			oVars.firstCharTime = 0;
-			oVars.lastCharTime = 0;
-			oVars.stringWriting = sTestString;
-			this._validateScanCode(oDomElement);
+		simulate: function(oDomElement, mStringOrArray){
+			this._reinitialize(oDomElement);
+			if (Array.isArray(mStringOrArray)){
+				mStringOrArray.forEach(function(mKey){
+					var oEventProps = {};
+					if( (typeof mKey === "object" || typeof mKey === 'function') && (mKey !== null) ) {
+						oEventProps = mKey;
+					} else {
+						oEventProps.keyCode = parseInt(mKey);
+					}
+					var oEvent = new KeyboardEvent('keydown', oEventProps);
+					document.dispatchEvent(oEvent);
+				})
+			} else {
+				oDomElement['scannerDetectionData'].vars.stringWriting = mStringOrArray;
+				this._validateScanCode(oDomElement);
+			}
 			return this;
 		},
 		
@@ -206,6 +227,7 @@
 		_reinitialize: function(oDomElement){
 			var oVars = oDomElement['scannerDetectionData'].vars;
 			oVars.firstCharTime = 0;
+			oVars.lastCharTime = 0;
 			oVars.stringWriting = '';
 			return;
 		},
@@ -335,15 +357,10 @@
 		 * @private
 		 * @param KeyboardEvent e
 		 * @return int
+		 * @see https://www.w3schools.com/jsref/event_key_keycode.asp
 		 */
 		_getNormalizedKeyNum: function(e){
-			var iKeyCode;  
-			if(window.event) { // IE                    
-			  iKeyCode = e.keyCode;
-			} else if(e.which){ // Netscape/Firefox/Opera                   
-			  iKeyCode = e.which;
-			}
-			return iKeyCode;
+			return e.which || e.keyCode;
 		},
 	
 	
@@ -353,19 +370,11 @@
 		 * @return void
 		 */
 		_handleKeyDown: function(e){
-			// overwrite the which value of the event with keycode for cross platform compatibility
 			var iKeyCode = onScan._getNormalizedKeyNum(e);
-			if (e.which !== iKeyCode) {
-				try {
-					e.which = iKeyCode;
-				} catch (e) {
-					console.warn('Cannot normalize KeyboardEvent.which: ', e);
-				}
-			}
 			var oOptions = this['scannerDetectionData'].options;
 			var oVars = this['scannerDetectionData'].vars;
 			
-			oOptions.onKeyDetect.call(this, e.which, e);		
+			oOptions.onKeyDetect.call(this, iKeyCode, e);		
 			
 			if (onScan._isFocusOnIgnoredElement(this)){
 				return;

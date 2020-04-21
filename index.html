@@ -33,15 +33,15 @@
 			</div>
 		</div>
 		<div class="row">
-			<div class="col-12 col-xs-12 col-md-4">
+			<div class="col-12 col-xs-12 col-md-5">
 				<div style="margin: 5px 5px 0 5px" class="input-group mb-3">
-  					<input id="iTestInput" class="form-control" placeholder="Enter scan code" />
+  					<input id="iTestInput" class="form-control" placeholder="Enter scan code or [key,key,...]" title="Scan code as string or [keyCode,keyCode,...]" />
 					<div class="input-group-append input-group-btn">
 				    	<input type="button" class="btn btn-primary" id="bFireTestInput" onclick="fireTestInput()" value="simulate()">
 				  	</div>
 				</div>
 			</div>
-			<div class="col-12 col-xs-12 col-md-8">
+			<div class="col-12 col-xs-12 col-md-7">
 				<input style="margin: 5px 5px 0 5px" type="button" id="bGenerateonScan" class="btn btn-primary" onclick="initOnScan()" value="attachTo(document)" />
 				<input style="margin: 5px 5px 0 5px" type="button" id="bDestroyonScan" class="btn btn-primary" onclick="destroyOnScan()" value="detachFrom(document)" />
 				<input style="margin: 5px 5px 0 5px" type="button" id="bGgetonScanSettings" class="btn btn-primary" onclick="getonScanSettings()" value="getOptions()" />
@@ -273,8 +273,8 @@
 		
 		
 		if (document.getElementById("iOnKeyProcessed").checked){
-			options.onKeyProcess = function(iKey, oEvent){
-				console.log("[onKeyProcess]: Processed key code: " + iKey);
+			options.onKeyProcess = function(sChar, oEvent){
+				console.log('[onKeyProcess]: Processed character "' + sChar + '"');
 			};
 		} else {
 			options.onKeyProcess = function(){};
@@ -283,7 +283,15 @@
 		
 		if (document.getElementById("iOnKeyDetect").checked){
 			options.onKeyDetect = function(iKey, oEvent){
-				console.log("[onKeyDetect]: Detected key code: " + iKey);
+				var oEventProps = ''
+					+ 'key:"' + oEvent.key + '", '
+					+ 'ctrlKey:' + oEvent.ctrlKey + ', '
+					+ 'altKey:' + oEvent.altKey + ', '
+					+ 'shiftKey:' + oEvent.shiftKey + ', '
+					+ 'metaKey:' + oEvent.metaKey + ', '
+					+ 'keyCode:' + oEvent.keyCode + ', '
+					+ 'charCode:' + oEvent.charCode + ', ';
+				console.log('[onKeyDetect]: Detected key code "' + iKey + '". Event dump: ' + oEventProps);
 			};
 		} else {
 			options.onKeyDetect = function(){};
@@ -391,7 +399,12 @@
 	}
 	
 	function fireTestInput(){
-		onScan.simulate(document, document.getElementById("iTestInput").value);
+		var sInput = (document.getElementById("iTestInput").value || '').trim();
+		if (sInput.startsWith('[') && sInput.endsWith(']')) {
+			onScan.simulate(document, JSON.parse(sInput));
+		} else {
+			onScan.simulate(document, sInput);
+		}
 	}
 	
 	(function(){
