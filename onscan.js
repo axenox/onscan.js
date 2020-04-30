@@ -51,8 +51,7 @@
 					vars:{
 						firstCharTime: 0,
 						lastCharTime: 0,
-						stringWriting: '',
-						callIsScanner: false,
+						accumulatedString: '',
 						testTimer: false,
 						longPressTimeStart: 0,
 						longPressed: false
@@ -213,8 +212,7 @@
 					document.dispatchEvent(oEvent);
 				})
 			} else {
-				oDomElement['scannerDetectionData'].vars.stringWriting = mStringOrArray;
-				this._validateScanCode(oDomElement);
+				this._validateScanCode(oDomElement, mStringOrArray);
 			}
 			return this;
 		},
@@ -228,7 +226,7 @@
 			var oVars = oDomElement['scannerDetectionData'].vars;
 			oVars.firstCharTime = 0;
 			oVars.lastCharTime = 0;
-			oVars.stringWriting = '';
+			oVars.accumulatedString = '';
 			return;
 		},
 		
@@ -270,11 +268,10 @@
 	     * @param DomElement oDomElement
 	     * @return boolean
 	     */
-		_validateScanCode: function(oDomElement){
+		_validateScanCode: function(oDomElement, sScanCode){
 			var oScannerData = oDomElement['scannerDetectionData'];			
 			var oOptions = oScannerData.options;
-			var iSingleScanQty = oScannerData.options.singleScanQty
-			var sScanCode = oScannerData.vars.stringWriting;
+			var iSingleScanQty = oScannerData.options.singleScanQty;
 			var iFirstCharTime = oScannerData.vars.firstCharTime;
 			var iLastCharTime = oScannerData.vars.lastCharTime;
 			var oScanError = {};
@@ -373,8 +370,11 @@
 			var iKeyCode = onScan._getNormalizedKeyNum(e);
 			var oOptions = this['scannerDetectionData'].options;
 			var oVars = this['scannerDetectionData'].vars;
+			var bScanFinished = false;
 			
-			oOptions.onKeyDetect.call(this, iKeyCode, e);		
+			if (oOptions.onKeyDetect.call(this, iKeyCode, e) === false) {
+				return;
+			}		
 			
 			if (onScan._isFocusOnIgnoredElement(this)){
 				return;
@@ -392,27 +392,19 @@
 				return;
 	        }
 			
-			if(oOptions.stopPropagation){
-				e.stopImmediatePropagation();
-			}
-			
-			if(oOptions.preventDefault){
-				e.preventDefault();
-			}
-			
 			switch(true){
 				// If it's not the first character and we encounter a terminating character, trigger scan process
 				case (oVars.firstCharTime && oOptions.suffixKeyCodes.indexOf(iKeyCode)!==-1):
 					e.preventDefault();
 					e.stopImmediatePropagation();
-					this['scannerDetectionData'].vars.callIsScanner=true;
+					bScanFinished=true;
 					break;
 					
 				// If it's the first character and we encountered one of the starting characters, don't process the scan	
 				case (!oVars.firstCharTime && oOptions.prefixKeyCodes.indexOf(iKeyCode)!==-1):
 					e.preventDefault();
 					e.stopImmediatePropagation();
-					oVars.callIsScanner=false;
+					bScanFinished=false;
 					break;
 					
 				// Otherwise, just add the character to the scan string we're building	
@@ -421,8 +413,16 @@
 					if (character === null){
 						return;
 					}
-					oVars.stringWriting += character;
-					oVars.callIsScanner=false;
+					oVars.accumulatedString += character;
+					
+					if (oOptions.preventDefault) {
+						e.preventDefault();
+					}
+					if (oOptions.stopPropagation) {
+						e.stopImmediatePropagation();
+					}
+					
+					bScanFinished=false;
 					break;
 			}
 	        
@@ -436,11 +436,11 @@
 				clearTimeout(oVars.testTimer);
 			}
 			
-			if(oVars.callIsScanner){
-				onScan._validateScanCode(this);
+			if(bScanFinished){
+				onScan._validateScanCode(this, oVars.accumulatedString);
 				oVars.testTimer=false;
 			} else {
-				oVars.testTimer=setTimeout(onScan._validateScanCode, oOptions.timeBeforeScanTest, this);
+				oVars.testTimer=setTimeout(onScan._validateScanCode, oOptions.timeBeforeScanTest, this, oVars.accumulatedString);
 			}
 	
 			oOptions.onKeyProcess.call(this, character, e);
@@ -458,7 +458,12 @@
 			if (onScan._isFocusOnIgnoredElement(this)){
 				return;
 			}
+			
 			e.preventDefault();
+
+			if (oOptions.stopPropagation) {
+				e.stopImmediatePropagation();
+			}
 						
 			var sPasteString = (event.clipboardData || window.clipboardData).getData('text');
 			this.scannerDetectionData.options.onPaste.call(this, sPasteString, event);
@@ -466,10 +471,9 @@
 			var oVars = this.scannerDetectionData.vars;
 			oVars.firstCharTime = 0;
 			oVars.lastCharTime = 0;
-			oVars.stringWriting = sPasteString;
 			
 			// validate the string
-			onScan._validateScanCode(this);
+			onScan._validateScanCode(this, sPasteString);
 			return;
 		},
 		
