@@ -496,6 +496,16 @@
 				this.scannerDetectionData.vars.longPressed = false;
 			}
 			return;
+		},
+		
+		/**
+		 * Returns TRUE the scanner is currently in the middle of a scan sequence.
+		 * 
+		 * @param DomElement
+		 * @return boolean
+		 */
+		isScanInProgressFor: function(oDomElement) {
+			return oDomElement['scannerDetectionData'].vars.firstCharTime > 0;
 		}
 	};
 	

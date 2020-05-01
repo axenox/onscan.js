@@ -147,6 +147,7 @@ Note: there are more callbacks in the options, than event types. The non-event c
 | setOptions | DOMElement, oOptions | Removes all scanner detection logic from the given DOM element. |
 | getOptions | DOMElement | Removes all scanner detection logic from the given DOM element. |
 | decodeKeyEvent | Event | Extracts the scanned string character from a keyboard event (i.e. `keydown`) |
+| isScanInProgressFor | DOMElement | Returns `true` the scanner is currently in the middle of a scan sequence and `false` otherwise. Technically, this means, that the scan sequence started (e.g. via prefix character) and has not ended yet (e.g. via suffix or timeout). This method is usefull inside event handlers. |
 
 ## Decoding key codes
 
