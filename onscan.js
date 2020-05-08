@@ -38,6 +38,7 @@
 				ignoreIfFocusOn:false, // do not handle scans if the currently focused element matches this selector or object
 				stopPropagation:false, // Stop immediate propagation on keypress event
 				preventDefault:false, // Prevent default action on keypress event
+				captureEvents:false, // Get the events before any listeners deeper in the DOM
 				reactToKeydown:true, // look for scan input in keyboard events
 				reactToPaste:false, // look for scan input in paste events
 				singleScanQty: 1, // Quantity of Items put out to onScan in a single scan
@@ -61,13 +62,13 @@
 			
 			// initializing handlers (based on settings)
 			if (oOptions.reactToPaste === true){
-				oDomElement.addEventListener("paste", this._handlePaste);
+				oDomElement.addEventListener("paste", this._handlePaste, oOptions.captureEvents);
 			}
 			if (oOptions.scanButtonKeyCode !== false){
-				oDomElement.addEventListener("keyup", this._handleKeyUp);
+				oDomElement.addEventListener("keyup", this._handleKeyUp, oOptions.captureEvents);
 			}
 			if (oOptions.reactToKeydown === true || oOptions.scanButtonKeyCode !== false){	
-				oDomElement.addEventListener("keydown", this._handleKeyDown);
+				oDomElement.addEventListener("keydown", this._handleKeyDown, oOptions.captureEvents);
 			}
 			return this;
 		},

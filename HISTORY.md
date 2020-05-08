@@ -1,8 +1,13 @@
 # onScan.js - version history
 
+### 1.5
+
+- NEW method `onScan.isScanInProgressFor()` to test if a potential keyboard scan is in progress
+- NEW option `captureEvents` to make sure onScan gets events before any other listerer below in the DOM
+
 ### 1.4.3
 
-- NEW onScan.simulate() now accepts arrays of key codes or event properties
+- NEW `onScan.simulate()` now accepts arrays of key codes or event properties
 - FIX shiftKey detection was not working
 
 ### 1.4.2
