@@ -145,8 +145,8 @@ Note: there are more callbacks in the options, than event types. The non-event c
 | attachTo | DOMElement, oOptions | Initializes listening for scan events for given DOM element. Only events fired for this DOM element will be processed. Use `document` to process all possible events. This is the best pick in most cases. <br><br>NOTE: onScan.js can be attached to a DOM element only once. If you, for some reason, need to call `attachTo()` for a single element multiple times, you must call `detachFrom()` first. |
 | detachFrom | DOMElement | Removes all scanner detection logic from the given DOM element. |
 | simulate | DOMElement, mStringOrArray | Fires the `scan` event for the given scan code - usefull to trigger listeners manually (e.g. for testing). Accepts either an already decoded string or an array with key codes or event property objects - see below for details. |
-| setOptions | DOMElement, oOptions | Removes all scanner detection logic from the given DOM element. |
-| getOptions | DOMElement | Removes all scanner detection logic from the given DOM element. |
+| setOptions | DOMElement, oOptions | Replaces only the newly sent options. |
+| getOptions | DOMElement | Retrieves entire oOptions object. |
 | decodeKeyEvent | Event | Extracts the scanned string character from a keyboard event (i.e. `keydown`) |
 | isScanInProgressFor | DOMElement | Returns `true` the scanner is currently in the middle of a scan sequence and `false` otherwise. Technically, this means, that the scan sequence started (e.g. via prefix character) and has not ended yet (e.g. via suffix or timeout). This method is usefull inside event handlers. |
 
@@ -164,13 +164,13 @@ This should work for the vast majority of cases. However, if you encounter stran
 onScan.attachTo(document, {
     onScan: function(sScanned, iQty) { ... },
     keyCodeMapper: function(oEvent) {
-		// Look for special keycodes or other event properties specific to
-		// your scanner
-		if (oEvent.which = 'your_special_key_code') {
-			return 'xxx';
-		}
-		// Fall back to the default decoder in all other cases
-		return onScan.decodeKeyEvent(oEvent);
+	// Look for special keycodes or other event properties specific to
+	// your scanner
+	if (oEvent.which = 'your_special_key_code') {
+		return 'xxx';
+	}
+	// Fall back to the default decoder in all other cases
+	return onScan.decodeKeyEvent(oEvent);
     }
 });
 ```
@@ -185,7 +185,7 @@ If you do not have your scanner at hand, you can simulate keyboard events progra
 - an array of keyCodes (e.g. `[70,71,80]`) - will produce `keydown` events with corresponding `keyCode` properties. NOTE: these events will have empty `key` properties, so decoding may yield different results than with native events.
 - an array of objects (e.g. `[{keyCode: 70, key: "F", shiftKey: true}, {keyCode: 71, key: "g"}]`) - this way almost any event can be simulated exactly, but it's a lot of work to do.
 
-Hint: use the `onKeyDetect` checkbox to in the playground to get a full dump of each keyboard event an just paste them in your simulation code.
+Hint: use the `onKeyDetect` checkbox in the playground to get a full dump of each keyboard event an just paste them in your simulation code.
 
 ## Credits
 
