@@ -3,6 +3,7 @@
 ### 1.5.1
 
 - NEW utility method `onScan.isAttachedTo()`.
+- FIX improvements in documentation
 
 ## 1.5
 
