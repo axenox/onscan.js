@@ -148,6 +148,7 @@ Note: there are more callbacks in the options, than event types. The non-event c
 | setOptions | DOMElement, oOptions | Replaces only the newly sent options. |
 | getOptions | DOMElement | Retrieves entire oOptions object. |
 | decodeKeyEvent | Event | Extracts the scanned string character from a keyboard event (i.e. `keydown`) |
+| isAttachedTo | DOMElement | Returns `true` if onScan is attached to the given DOM element and `false` otherwise |
 | isScanInProgressFor | DOMElement | Returns `true` the scanner is currently in the middle of a scan sequence and `false` otherwise. Technically, this means, that the scan sequence started (e.g. via prefix character) and has not ended yet (e.g. via suffix or timeout). This method is usefull inside event handlers. |
 
 ## Decoding key codes

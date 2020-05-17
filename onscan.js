@@ -224,7 +224,7 @@
 		 * @return void
 		 */
 		_reinitialize: function(oDomElement){
-			var oVars = oDomElement['scannerDetectionData'].vars;
+			var oVars = oDomElement.scannerDetectionData.vars;
 			oVars.firstCharTime = 0;
 			oVars.lastCharTime = 0;
 			oVars.accumulatedString = '';
@@ -238,7 +238,7 @@
 		 */
 		_isFocusOnIgnoredElement: function(oDomElement){
 			
-			var ignoreSelectors = oDomElement['scannerDetectionData'].options.ignoreIfFocusOn;
+			var ignoreSelectors = oDomElement.scannerDetectionData.options.ignoreIfFocusOn;
 	
 	        if(!ignoreSelectors){
 				return false;
@@ -270,7 +270,7 @@
 	     * @return boolean
 	     */
 		_validateScanCode: function(oDomElement, sScanCode){
-			var oScannerData = oDomElement['scannerDetectionData'];			
+			var oScannerData = oDomElement.scannerDetectionData;			
 			var oOptions = oScannerData.options;
 			var iSingleScanQty = oScannerData.options.singleScanQty;
 			var iFirstCharTime = oScannerData.vars.firstCharTime;
@@ -369,8 +369,8 @@
 		 */
 		_handleKeyDown: function(e){
 			var iKeyCode = onScan._getNormalizedKeyNum(e);
-			var oOptions = this['scannerDetectionData'].options;
-			var oVars = this['scannerDetectionData'].vars;
+			var oOptions = this.scannerDetectionData.options;
+			var oVars = this.scannerDetectionData.vars;
 			var bScanFinished = false;
 			
 			if (oOptions.onKeyDetect.call(this, iKeyCode, e) === false) {
@@ -506,7 +506,17 @@
 		 * @return boolean
 		 */
 		isScanInProgressFor: function(oDomElement) {
-			return oDomElement['scannerDetectionData'].vars.firstCharTime > 0;
+			return oDomElement.scannerDetectionData.vars.firstCharTime > 0;
+		},
+		
+		/**
+		 * Returns TRUE if onScan is attached to the given DOM element and FALSE otherwise.
+		 * 
+		 * @param DomElement
+		 * @return boolean
+		 */
+		isAttachedTo: function(oDomElement) {
+			return (oDomElement.scannerDetectionData !== undefined);
 		}
 	};
 	

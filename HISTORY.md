@@ -1,5 +1,9 @@
 # onScan.js - version history
 
+### 1.5.1
+
+- NEW utility method `onScan.isAttachedTo()`.
+
 ### 1.5
 
 - NEW method `onScan.isScanInProgressFor()` to test if a potential keyboard scan is in progress
