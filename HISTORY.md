@@ -1,5 +1,9 @@
 # onScan.js - version history
 
+### 1.5.2
+
+- FIX undefined variable oOptions when in paste-mode 
+
 ### 1.5.1
 
 - NEW utility method `onScan.isAttachedTo()`.

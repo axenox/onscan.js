@@ -455,6 +455,10 @@
 		 */
 		_handlePaste: function(e){
 	
+			var oOptions = this.scannerDetectionData.options;
+			var oVars = this.scannerDetectionData.vars;
+			var sPasteString = (event.clipboardData || window.clipboardData).getData('text');
+			
 			// if the focus is on an ignored element, abort
 			if (onScan._isFocusOnIgnoredElement(this)){
 				return;
@@ -466,10 +470,8 @@
 				e.stopImmediatePropagation();
 			}
 						
-			var sPasteString = (event.clipboardData || window.clipboardData).getData('text');
-			this.scannerDetectionData.options.onPaste.call(this, sPasteString, event);
+			oOptions.onPaste.call(this, sPasteString, event);
 			
-			var oVars = this.scannerDetectionData.vars;
 			oVars.firstCharTime = 0;
 			oVars.lastCharTime = 0;
 			
