@@ -167,7 +167,7 @@ onScan.attachTo(document, {
     keyCodeMapper: function(oEvent) {
 	// Look for special keycodes or other event properties specific to
 	// your scanner
-	if (oEvent.which = 'your_special_key_code') {
+	if (oEvent.which == 'your_special_key_code') {
 		return 'xxx';
 	}
 	// Fall back to the default decoder in all other cases
