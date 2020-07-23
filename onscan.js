@@ -21,17 +21,17 @@
 			}
 	
 			var oDefaults = {
-				onScan: function(sScanned, iQty){}, // Callback after detection of a successfull scanning:  function(){sScancode, iCount)}()
-				onScanError: function(oDebug){}, // Callback after detection of a unsuccessfull scanning (scanned string in parameter)
+				onScan: function(sScanned, iQty){}, // Callback after detection of a successful scanning:  function(){sScancode, iCount)}()
+				onScanError: function(oDebug){}, // Callback after detection of an unsuccessful scanning (scanned string in parameter)
 				onKeyProcess: function(sChar, oEvent){}, // Callback after receiving and processing a char (scanned char in parameter)
 				onKeyDetect: function(iKeyCode, oEvent){}, // Callback after detecting a keyDown (key char in parameter) - in contrast to onKeyProcess, this fires for non-character keys like tab, arrows, etc. too!
 				onPaste: function(sPasted, oEvent){}, // Callback after receiving a value on paste, no matter if it is a valid code or not
 				keyCodeMapper: function(oEvent) {return onScan.decodeKeyEvent(oEvent)}, // Custom function to decode a keydown event into a character. Must return decoded character or NULL if the given event should not be processed.
-				onScanButtonLongPress: function(){}, // Callback after detection of a successfull scan while the scan button was pressed and held down
-				scanButtonKeyCode:false, // Key code of the scanner hardware button (if the scanner button a acts as a key itself) 
+				onScanButtonLongPress: function(){}, // Callback after detection of a successful scan while the scan button was pressed and held down
+				scanButtonKeyCode:false, // Key code of the scanner hardware button (if the scanner button acts as a key itself) 
 				scanButtonLongPressTime:500, // How long (ms) the hardware button should be pressed, until a callback gets executed
 				timeBeforeScanTest:100, // Wait duration (ms) after keypress event to check if scanning is finished
-				avgTimeByChar:30, // Average time (ms) between 2 chars. Used to do difference between keyboard typing and scanning
+				avgTimeByChar:30, // Average time (ms) between 2 chars. Used to differentiate between keyboard typing and scanning
 				minLength:6, // Minimum length for a scanning
 				suffixKeyCodes:[9,13], // Chars to remove and means end of scanning
 				prefixKeyCodes:[], // Chars to remove and means start of scanning
@@ -283,14 +283,14 @@
 				// detect codes that are too short
 				case (sScanCode.length < oOptions.minLength):
 					oScanError = {
-						message: "Receieved code is shorter then minimal length"
+						message: "Received code is shorter than minimal length"
 					};
 					break;
 					
 				// detect codes that were entered too slow	
 				case ((iLastCharTime - iFirstCharTime) > (sScanCode.length * oOptions.avgTimeByChar)):
 					oScanError = {
-						message: "Receieved code was not entered in time"
+						message: "Received code was not entered in time"
 					};				
 					break;
 					
@@ -502,7 +502,7 @@
 		},
 		
 		/**
-		 * Returns TRUE the scanner is currently in the middle of a scan sequence.
+		 * Returns TRUE if the scanner is currently in the middle of a scan sequence.
 		 * 
 		 * @param DomElement
 		 * @return boolean
