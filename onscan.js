@@ -270,7 +270,10 @@
 	     * @return boolean
 	     */
 		_validateScanCode: function(oDomElement, sScanCode){
-			var oScannerData = oDomElement.scannerDetectionData;			
+			var oScannerData = oDomElement.scannerDetectionData;
+			if (!oScannerData) {
+				return false;
+			}
 			var oOptions = oScannerData.options;
 			var iSingleScanQty = oScannerData.options.singleScanQty;
 			var iFirstCharTime = oScannerData.vars.firstCharTime;
