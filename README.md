@@ -110,24 +110,22 @@ The following options can be set when initializing onScan.js:
 
 | Event name | Parameters passed to listener | Description |
 | ------ | ------- | ----------- |
-| scan | sScanned, iQty | Triggered after successful scan. Handler arguments: <br> - `sScanned` - [string] scanned code <br> - `iQty` - [integer] quantity    |
-| scanButtonLongPress | | Triggered after the scan button was pressed and held down for a time defined in `scanButtonLongPressThreshold`. This can only be used if the scan button behaves as a key itself and the `scanButtonKeyCode` option is set. No arguments are passed to the handler. |
+| scan | { scanCode, qty } | Triggered after successful scan. Handler arguments: <br> - `scanCode` - [string] scanned code <br> - `qty` - [integer] quantity    |
 | scanError | oDebug | Triggered after a scanned string being dropped due to restrictions. Handler arguments: <br> - `oDebug`    - [object] plain object with various debug data    |
 
 You can register regular event listeners on the DOM element, onScan was initialized for:
 
 ```javascript
 document
-    .addEventListener('scan', function(sScanned, iQty){ ... });
+    .addEventListener('scan', function({ scanCode, qty }){ ... });
     .addEventListener('scanError', function(oDebug){ ... });
-    .addEventListener('scanButtonLongPressed', function(){ ... });
 ```
 
 You can also define callback directly in the options, when initializing onScan:
 
 ```javascript
 onScan.attachTo(document, {
-    onScan: function(sScanned, iQty) { ... },
+    onScan: function(scanCode, qty) { ... },
     onScanError: function(oDebug) { ... },
     onScanButtonLongPress: function() { ... },
     onKeyDetect: function(iKeyCode, oEvent){ ... }
