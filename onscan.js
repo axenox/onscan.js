@@ -167,6 +167,7 @@
 			switch (true) {
 				case iCode >= 48 && iCode <= 90: // numbers and letters
 				case iCode >= 106 && iCode <= 111: // operations on numeric keypad (+, -, etc.)
+				case iCode == 32: // spacebar	
 					if (oEvent.key !== undefined && oEvent.key !== '') {
 						return oEvent.key;
 					}
